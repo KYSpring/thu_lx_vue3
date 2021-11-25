@@ -1,0 +1,11 @@
+{
+    "state":200,
+    "content":{
+        "LXInfo":{},
+        "LXAction":{
+            "LXLoan":{},
+            "LXRepayment":{}
+        },
+        "LXBalance":{}
+    }
+}
