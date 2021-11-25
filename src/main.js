@@ -31,7 +31,8 @@ const LXStore = createStore({
     }
 });
 
-const app = createApp(App).mount('#app')
+const app = createApp(App)
+app.mount('#app')
 app.use(LXStore);
 app.config.globalProperties.$ELEMENT = {
     // options
