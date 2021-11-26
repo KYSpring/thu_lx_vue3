@@ -1,18 +1,18 @@
 import { createApp } from 'vue'
-import { createStore, Store } from 'vuex'
+import { createStore } from 'vuex'
 import App from './App.vue'
-import { ElButton } from 'element-plus'
 
-const LXStore = createStore({
+const store = createStore({
     state () {
       return {
-        count:0,
         LXInfo:{
           isNatural: true,
           isContractStart: true,
-          prosecutionTime: '',
+          contractStartTime:'',
+          prosecutionTime: 'test wangshaochun',
           acceptanceTime:'',
-          isLiquidatedDamage:0,
+          isLiquidatedDamage:true,
+          liquidatedDamage:0,
         },
         LXAction:{
             LXLoan:{},
@@ -32,11 +32,9 @@ const LXStore = createStore({
 });
 
 const app = createApp(App)
-app.mount('#app')
-app.use(LXStore);
+app.use(store);
 app.config.globalProperties.$ELEMENT = {
     // options
-    // 可以传入一个包含 size 和 zIndex 属性的全局配置对象。 size 用于设置表单组件的默认尺寸，zIndex 用于设置弹出组件的层级，zIndex 的默认值为 2000。
-    
+    // 可以传入一个包含 size 和 zIndex 属性的全局配置对象。 size 用于设置表单组件的默认尺寸，zIndex 用于设置弹出组件的层级，zIndex 的默认值为 2000。   
 }
-app.use(ElButton);
+app.mount('#app')

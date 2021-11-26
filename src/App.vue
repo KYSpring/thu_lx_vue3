@@ -10,20 +10,43 @@ import LXInfoModVue from './components/LXInfoMod.vue';
 </template>
 
 <style>
+@media (max-width: 1024px) {
+    html {
+      font-size:1vw;
+    }
+    #app {
+      position: relative;
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+      width: 100vw;
+      height: 100vh;
+      padding: 2rem;
+      border:2px solid gray;
+      border-radius: 25px;
+      background: rgb(246, 245, 245);
+    }
+}
 html {
-  font-size:1vw;
+  font-size:10.24px;
 }
 #app {
+  position: relative;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-  width: 100vw;
+  width: 1024px;
   height: 100vh;
-  margin: 2rem;
   padding: 2rem;
-  background: green;
+  margin:auto;
+  border:2px solid gray;
+  border-radius: 25px;
+  background: rgb(246, 245, 245);
 }
+
+
 </style>
