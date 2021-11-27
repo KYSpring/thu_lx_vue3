@@ -22,14 +22,6 @@ const store = createStore({
         ],
         LXBalance:{}
       }
-    },
-    getters:{
-
-    },
-    mutations: {
-      increment (state) {
-        state.count++
-      }
     }
 });
 
