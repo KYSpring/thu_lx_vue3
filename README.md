@@ -17,6 +17,30 @@ npm run newpage “模块名称" （无需.vue后缀）
 ## 前后端数据协议
 - 本项目采用vuex管理所有数据,并且通过vuex实现页面视图和业务数据的隔离，任何组件都可以直接操作vuex中的数据，最终向后端发起的数据只信任vuex中的数据，不信任组件中的临时变量。
 - 所有数据统一注册在main.js中的createStore函数中的state()中。
+```
+const store = createStore({
+    state () {
+      return {
+        LXInfo:{
+          isNatural: ref(true),
+          isContractStart: ref(true),
+          contractStartTime:ref(''),
+          prosecutionTime: ref(''),
+          acceptanceTime:ref(''),
+          isLiquidatedDamage:ref(true),
+          liquidatedDamage:ref(0),
+        },
+        LXAction:[
+            {
+              LXLoan:{},
+              LXRepayment:{}
+            }
+        ],
+        LXBalance:{}
+      }
+    }
+});
+```
 - vuex中直接存储响应式ref数据，便于直接在组件中直接使用；
 
 ## 前端UI组件使用
