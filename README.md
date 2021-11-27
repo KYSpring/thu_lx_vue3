@@ -11,11 +11,12 @@ npm run dev
 ```
 ### 2. 创建新component组件
 ```
-npm run newpage “模块名称"
+npm run newpage “模块名称" （无需.vue后缀）
 ```
 
 ## 前后端数据协议
 - 本项目采用vuex管理所有数据,并且通过vuex实现页面视图和业务数据的隔离，任何组件都可以直接操作vuex中的数据，最终向后端发起的数据只信任vuex中的数据，不信任组件中的临时变量。
+- 所有数据统一注册在main.js中的createStore函数中的state()中。
 - vuex中直接存储响应式ref数据，便于直接在组件中直接使用；
 
 ## 前端UI组件使用
@@ -36,6 +37,23 @@ import {ArrowDownBold} from '@element-plus/icons'// 引入
 
 // 注意：element-ui迁移到svg类型库后，原始官网的参考代码需要修改为驼峰命名
 ```
+
+### 3. git提交代码要求
+- 目前的开发分支为commondev，另外为新建有xieziheng分支、liutianyi分支，请务必在各自名字下的分支进行开发；
+- 各自分配的模块开发完成后再提交到commondev分支上，切忌开发中途就合并到commondev分支！
+- 切忌在main或master分支上直接进行开发！！！
+- git commit -m "描述信息" 中的描述信息建议按如下格式填写：“王少春：更新LXInfoMod模块”（即：姓名+具体动作）
+
+git常用命令：
+```
+git branch // 查看当前分支名称
+git clone git@github.com:KYSpring/thu_lx_vue3.git //(建议使用ssh进行分支下载，https可能存在失败的情况)
+git checkout 分支名 //切换分支
+git add . //在本地仓库检查最新编辑的代码进入缓存状态；
+git commit -m “描述信息” //在本地仓库更新最新编辑的代码（此过程不太可逆，请慎重）
+git push //向远程仓库提交代码（此过程将覆盖远程仓库代码，请慎重）
+```
+- 
 
 ## Vue 3 + Vite
 
