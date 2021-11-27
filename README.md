@@ -15,9 +15,19 @@ npm run newpage “模块名称"
 ```
 
 ## 前后端数据协议
-- 本项目采用vuex管理所有数据；
+- 本项目采用vuex管理所有数据,并且通过vuex实现页面视图和业务数据的隔离，任何组件都可以直接操作vuex中的数据，最终向后端发起的数据只信任vuex中的数据，不信任组件中的临时变量。
+- vuex中直接存储响应式ref数据，便于直接在组件中直接使用；
 
 ## 前端UI组件使用
+- 除了icon组件之外的其他组件已经实现自动化引入，无需额外的import,例如：
+```
+<el-radio-group v-model="ruleForm.isNatural">
+    <el-radio :label="true">是</el-radio>
+    <el-radio :label="false">否</el-radio>
+</el-radio-group>
+
+<!-- 可以直接在模版中使用，无需在script中import -->
+```
 - 使用element-ui官方组件库element-plus/icons，按需引入，参考代码如下：
 ```
 import {ArrowDownBold} from '@element-plus/icons'// 引入

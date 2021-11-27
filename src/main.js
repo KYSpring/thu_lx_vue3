@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 import { createStore } from 'vuex'
 import App from './App.vue'
 
@@ -6,18 +6,20 @@ const store = createStore({
     state () {
       return {
         LXInfo:{
-          isNatural: true,
-          isContractStart: true,
-          contractStartTime:'',
-          prosecutionTime: 'test wangshaochun',
-          acceptanceTime:'',
-          isLiquidatedDamage:true,
-          liquidatedDamage:0,
+          isNatural: ref(true),
+          isContractStart: ref(true),
+          contractStartTime:ref(''),
+          prosecutionTime: ref(''),
+          acceptanceTime:ref(''),
+          isLiquidatedDamage:ref(true),
+          liquidatedDamage:ref(0),
         },
-        LXAction:{
-            LXLoan:{},
-            LXRepayment:{}
-        },
+        LXAction:[
+            {
+              LXLoan:{},
+              LXRepayment:{}
+            }
+        ],
         LXBalance:{}
       }
     },
