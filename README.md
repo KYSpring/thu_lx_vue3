@@ -63,9 +63,9 @@ import {ArrowDownBold} from '@element-plus/icons'// 引入
 ```
 
 ### 3. git提交代码要求
-- 目前的开发分支为commondev，另外为新建有xieziheng分支、liutianyi分支，请务必在各自名字下的分支进行开发；
+- 目前的开发分支为commondev，另外为新建有xieziheng分支、liutianyi分支，请务必在各自名字下的分支进行开发和提交远程代码；
 - 各自分配的模块开发完成后再提交到commondev分支上，切忌开发中途就合并到commondev分支！
-- 切忌在main或master分支上直接进行开发！！！
+- 切忌在main分支上直接进行开发或提交到远程仓库！！！（由于免费版无法设置分支权限，强烈建议大家在git push之前先使用git branch查看自己所在的分支名，确认不是main分支后再提交）
 - git commit -m "描述信息" 中的描述信息建议按如下格式填写：“王少春：更新LXInfoMod模块”（即：姓名+具体动作）
 
 git常用命令：
