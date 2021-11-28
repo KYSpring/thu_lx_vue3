@@ -87,7 +87,7 @@ const addLendRecord = ()=>{
             </el-form-item>
           </el-col>
           <el-col :span=8>
-            <el-form-item label="案件受理时间:" prop="acceptanceTime">
+            <el-form-item label="受理时间:" prop="acceptanceTime">
               <el-date-picker 
               v-model="ruleForm.acceptanceTime" 
               type="date" placeholder="选择日期"
@@ -148,7 +148,7 @@ const addLendRecord = ()=>{
 <style scoped>
 #basebox{
   position: relative;
-  width: 100%;
+  /* width: 100%; */
   font-size:2rem;
   display: flex;
   justify-self: start;
@@ -162,9 +162,10 @@ const addLendRecord = ()=>{
   font-size: 10rem;
 }
 #ruleFormClass{
-  background: rgb(250, 250, 250);
+  /* background: rgb(250, 250, 250); */
   padding: 2rem;
   border:1px solid gray;
+  border-radius: 5px;
   margin:1rem 0;
 }
 </style>
