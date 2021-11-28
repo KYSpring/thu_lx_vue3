@@ -65,9 +65,9 @@ const addLendRecord = ()=>{
           ref="getRuleForm"
           :model="ruleForm"
           :rules="rules"
-          label-width="40%"
+          label-width="45%"
         >
-        <el-row justify="space-between">
+        <el-row justify="space-between" align="middle">
           <el-col :span=8>
             <el-form-item label="双方均为自然人:" prop="isNatural">
               <el-radio-group v-model="ruleForm.isNatural">
@@ -77,7 +77,7 @@ const addLendRecord = ()=>{
             </el-form-item>
           </el-col>
           <el-col :span=8>
-            <el-form-item label="起诉时间:" prop="prosecutionTime">
+            <el-form-item label="起诉时间:" prop="prosecutionTime" >
               <el-date-picker 
               v-model="ruleForm.prosecutionTime" 
               type="date" placeholder="选择日期"
@@ -138,7 +138,7 @@ const addLendRecord = ()=>{
       </div>
       <el-row justify="end">
         <el-col :span="4">
-          <el-button type="primary" plain @click="addLendRecord">添加借款记录</el-button>
+          <el-button type="primary" @click="addLendRecord">添加借款记录</el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -148,15 +148,9 @@ const addLendRecord = ()=>{
 <style scoped>
 #basebox{
   position: relative;
-  /* width: 100%; */
   font-size:2rem;
-  display: flex;
-  justify-self: start;
-}
-#infobox{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
+  margin:0.5rem
 }
 #iconbox{
   font-size: 10rem;
@@ -167,5 +161,8 @@ const addLendRecord = ()=>{
   border:1px solid gray;
   border-radius: 5px;
   margin:1rem 0;
+}
+:deep(.el-input__prefix-inner) { 
+  display: block;
 }
 </style>

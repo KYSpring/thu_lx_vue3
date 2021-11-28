@@ -2,16 +2,18 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import LXInfoModVue from './components/LXInfoMod.vue';
+import LXBalanceModVue from './components/LXBalanceMod.vue';
 </script>
 
 <template>
     <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
       <LXInfoModVue></LXInfoModVue>
+      <LXBalanceModVue msg="wangshaochun"></LXBalanceModVue>
 </template>
 
 <style>
 html {
-font-size:10.24px;
+font-size:9.4px;
 }
 #app {
   position: relative;
@@ -20,7 +22,7 @@ font-size:10.24px;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  width: 1024px;
+  width: 940px;
   height: 100vh;
   padding: 2rem;
   margin:auto;
@@ -28,7 +30,7 @@ font-size:10.24px;
   border-radius: 25px;
   background: rgb(246, 245, 245);
 }
-@media (max-width: 1024px) {
+@media (max-width: 940px) {
     html {
       font-size:1vw;
     }
