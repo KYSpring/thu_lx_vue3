@@ -2,11 +2,13 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import LXInfoModVue from './components/LXInfoMod.vue';
+import LXActionModVue from './components/LXActionMod.vue';
 </script>
 
 <template>
     <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
       <LXInfoModVue></LXInfoModVue>
+      <LXActionModVue></LXActionModVue> 
 </template>
 
 <style>
