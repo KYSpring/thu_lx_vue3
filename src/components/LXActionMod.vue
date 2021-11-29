@@ -9,6 +9,8 @@ import {
   CaretBottom,
 } from "@element-plus/icons";
 
+import {deepClone} from "../utils";
+
 defineProps({
   msg: String,
 });
@@ -71,7 +73,7 @@ let basicRecord = {
 };
 
 function addBlankRecord() {
-  let tempRecord = basicRecord
+  let tempRecord = deepClone(basicRecord)
   records.value.push(tempRecord);
 }
 
