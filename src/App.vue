@@ -16,7 +16,7 @@ html {
 font-size:10.24px;
 }
 #app {
-  /* position: relative;
+  position: relative;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -28,14 +28,14 @@ font-size:10.24px;
   margin:auto;
   border:2px solid gray;
   border-radius: 25px;
-  background: rgb(246, 245, 245); */
+  background: rgb(246, 245, 245);
 }
 @media (max-width: 1024px) {
     html {
       font-size:1vw;
     }
     #app {
-      /* position: relative;
+      position: relative;
       font-family: Avenir, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -47,10 +47,6 @@ font-size:10.24px;
       border:2px solid gray;
       border-radius: 25px;
       background: rgb(246, 245, 245);
-      background: green; */
     }
 }
-
-
-
 </style>

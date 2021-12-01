@@ -8,77 +8,70 @@ import {
   Files,
   CaretBottom,
 } from "@element-plus/icons";
-
 import {deepClone} from "../utils";
 
-defineProps({
-  msg: String,
-});
-function recordUnfold(recordKey){
-  console.log( records.value[recordKey].isFolded);
-  records.value[recordKey].isFolded = true;
-}
+const count = ref(0);
+const isFolded = ref(false);
+const rateSelect = [
+  {
+    category: "固定利率",
+    value: 1,
+  },
+  {
+    category: "一年期LPR",
+    value: 2,
+  },
+  {
+    category: "五年期LPR",
+    value: 3,
+  },
+]
+let basicRecord = { //初始化一个新记录
+  index: 0,//与records中的索引保持一致
+  isFolded: false,//面板折叠状态
+  loanLendTime:'',//借款时间
+  loanEndTime:'',//借款到期时间
+  rateStartTime:'',//期内利息起算时间
+  loanAmount:'',//借款金额
 
-
-function recordFold(recordKey) {
-  records.value[recordKey].isFolded = false;
-  console.log(records.value);
-}
-
-// 一个基础的record 数据 ！！仍然不全！只是为了测试添加新记录
-let basicRecord = {
-  index: 0,
-  isFolded: false,
   // 期内利息
   rateRadio: 1, // 选择有无期内利息
-  rateSelect: [
-    {
-      category: "固定利率",
-      value: 1,
-    },
-    {
-      category: "一年期LPR",
-      value: 2,
-    },
-    {
-      category: "五年期LPR",
-      value: 3,
-    },
-  ],
   rateSelectValue: 1, // 期内利率种类 值 1，2，3
   stableRateInputShow: true,
   oneYearLPRItemShow: false,
   fiveYearLPRItemShow: false,
+  rate:0,//期内利率
+  LPRTimes:0,//LPR倍率
+  LPRYear:'',//期内利率约定的LPR年份
 
-  //余期 利息
+  // 逾期利息
   overdueRateRadio: 1, // 选择有无余期利息
-  overdueRateSelect: [
-    {
-      category: "固定利率",
-      value: 1,
-    },
-    {
-      category: "一年期LPR",
-      value: 2,
-    },
-    {
-      category: "五年期LPR",
-      value: 3,
-    },
-  ],
   overdueRateSelectValue: 1, // 逾期利率种类 值 1，2，3
   overdueStableRateInputShow: true,
   overdueOneYearLPRItemShow: false,
   overdueFiveYearLPRItemShow: false,
-};
+  overdueRate:0,//逾期利率
+  overdueLPRRate:0,//逾期LPR利率
+  overdueLPRYear:'',//逾期利率约定的LPR年份
+}
+const records = ref([{...basicRecord}])//深拷贝basicrecord;
 
-function addBlankRecord() {
-  let tempRecord = deepClone(basicRecord)
-  records.value.push(tempRecord);
+const recordUnfold = (recordKey)=>{
+  records.value[recordKey].isFolded = true;
+}
+
+const recordFold = (recordKey)=>{
+  console.log(records.value);
+}
+
+const addBlankRecord = () => {
+  // let tempRecord = deepClone(basicRecord)
+  // records.value.push(tempRecord);
+  records.value.push({...basicRecord});
 }
 
 // 传入recordKey 监控每个record 展开情况
-function rateSelectChange($event, recordKey) {
+const rateSelectChange = ($event, recordKey) => {
   // recordKey 是数组的下标
   switch ($event) {
     case 1:
@@ -101,7 +94,7 @@ function rateSelectChange($event, recordKey) {
   }
 }
 
-function overdueRateSelectChange($event, recordKey) {
+const overdueRateSelectChange = ($event, recordKey) => {
   // recordKey 是数组的下标
   switch ($event) {
     case 1:
@@ -123,55 +116,6 @@ function overdueRateSelectChange($event, recordKey) {
       records.value[recordKey].overdueStableRateInputShow = false;
   }
 }
-const count = ref(0);
-const isFolded = ref(false);
-const records = ref([
-  {
-    index: 0,
-    isFolded: true,
-    // 期内利息
-    rateRadio: 1, // 选择有无期内利息
-    rateSelect: [
-      {
-        category: "固定利率",
-        value: 1,
-      },
-      {
-        category: "一年期LPR",
-        value: 2,
-      },
-      {
-        category: "五年期LPR",
-        value: 3,
-      },
-    ],
-    rateSelectValue: 1, // 期内利率种类 值 1，2，3
-    stableRateInputShow: true,
-    oneYearLPRItemShow: false,
-    fiveYearLPRItemShow: false,
-
-    //余期 利息
-    overdueRateRadio: 1, // 选择有无余期利息
-    overdueRateSelect: [
-      {
-        category: "固定利率",
-        value: 1,
-      },
-      {
-        category: "一年期LPR",
-        value: 2,
-      },
-      {
-        category: "五年期LPR",
-        value: 3,
-      },
-    ],
-    overdueRateSelectValue: 1, // 逾期利率种类 值 1，2，3
-    overdueStableRateInputShow: true,
-    overdueOneYearLPRItemShow: false,
-    overdueFiveYearLPRItemShow: false,
-  },
-]);
 
 </script>
 
@@ -207,7 +151,9 @@ const records = ref([
         id="ruleFormClass"
         v-show="!isFolded"
         v-for="(record, recordKey) in records"
+        :key="record.index"
       >
+      {{record.index}}
         <!-- 借款记录标题部分 -->
         <el-row>
           <span class="recordTitle">借款记录-{{ recordKey + 1 }}</span>
