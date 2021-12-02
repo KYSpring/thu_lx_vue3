@@ -26,7 +26,7 @@ const rateSelect = [
     value: 3,
   },
 ]
-let basicRecord = { //初始化一个新记录
+const basicRecord = { //初始化一个新记录
   index: 0,//与records中的索引保持一致
   isFolded: false,//面板折叠状态
   loanLendTime:'',//借款时间
@@ -42,7 +42,7 @@ let basicRecord = { //初始化一个新记录
   fiveYearLPRItemShow: false,
   rate:0,//期内利率
   LPRTimes:0,//LPR倍率
-  LPRYear:'2021-12-02',//期内利率约定的LPR年份
+  LPRYear:'',//期内利率约定的LPR年份
 
   // 逾期利息
   overdueRateRadio: 1, // 选择有无余期利息
@@ -52,15 +52,12 @@ let basicRecord = { //初始化一个新记录
   overdueFiveYearLPRItemShow: false,
   overdueRate:0,//逾期利率
   overdueTimes:0,//逾期LPR倍率
-  overdueLPRYear:'2021/12/02',//逾期利率约定的LPR年份
+  overdueLPRYear:'',//逾期利率约定的LPR年份
 }
 const records = ref([{...basicRecord}])//深拷贝basicrecord;
 const testfn = () => { //test
   console.log('records.value',records.value)
 }
-watch(records,(old,newrecord)=>{
-  testfn()
-})
 
 const recordUnfold = (recordKey)=>{
   records.value[recordKey].isFolded = true;
@@ -79,6 +76,7 @@ const addBlankRecord = () => {
 // 传入recordKey 监控每个record 展开情况
 const rateSelectChange = (rateType, recordKey) => {
   // recordKey 是数组的下标
+  console.log('rateType',rateType)
   switch (rateType) {
     case 1:
       console.log(1);
@@ -94,10 +92,14 @@ const rateSelectChange = (rateType, recordKey) => {
 
       break;
     default:
+      console.log(3);
       records.value[recordKey].fiveYearLPRItemShow = true;
       records.value[recordKey].oneYearLPRItemShow = false;
       records.value[recordKey].stableRateInputShow = false;
   }
+  console.log(records.value[recordKey].stableRateInputShow,
+  records.value[recordKey].oneYearLPRItemShow,
+  records.value[recordKey].fiveYearLPRItemShow)
 }
 
 const overdueRateSelectChange = (rateType, recordKey) => {
@@ -126,6 +128,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
 <template>
   <div id="basebox">
     <el-card shadow="hover" style="width: 100%">
+  {{records}}
       <!-- title部分 -->
       <el-row justify="space-between">
         <el-col
@@ -157,12 +160,6 @@ const overdueRateSelectChange = (rateType, recordKey) => {
         v-for="(recordItem, recordKey) in records"
         :key="recordItem.index"
       >
-      {{recordItem.index}}
-        <!-- 借款记录标题部分 -->
-        <el-row>
-          <span class="recordTitle">借款记录-{{ recordKey + 1 }}</span>
-        </el-row>
-
         <!-- 借款展开主要内容 -->
         <div v-show="!recordItem.isFolded">
           <el-form label-position="right">
@@ -171,7 +168,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               v-model="recordItem.loanLendTime" 
               type="date" placeholder="选择日期"
               style="width: 80%;"
-              format="YYYY/MM/DD" value-format="YYYY-MM-DD">
+              format="YYYY-MM-DD" value-format="YYYY-MM-DD">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="到期时间" inline>
@@ -179,7 +176,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               v-model="recordItem.loanEndTime" 
               type="date" placeholder="选择日期"
               style="width: 80%;"
-              format="YYYY/MM/DD" value-format="YYYY-MM-DD">
+              format="YYYY-MM-DD" value-format="YYYY-MM-DD">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="利息起算时间">
@@ -187,7 +184,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               v-model="recordItem.rateStartTime" 
               type="date" placeholder="选择日期"
               style="width: 80%;"
-              format="YYYY/MM/DD" value-format="YYYY-MM-DD">
+              format="YYYY-MM-DD" value-format="YYYY-MM-DD">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="借款金额">
@@ -207,7 +204,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               <el-select
                 v-model="recordItem.rateSelectValue"
                 placeholder="请选择"
-                @change="rateSelectChange(rateType, recordKey)"
+                @change="rateSelectChange(recordItem.rateSelectValue, recordKey)"
               >
                 <el-option
                   v-for="(item, key) in rateSelect"
@@ -257,16 +254,29 @@ const overdueRateSelectChange = (rateType, recordKey) => {
 
             <!-- 五年期 利率倍数输入框 -->
             <el-form-item v-if="recordItem.fiveYearLPRItemShow && recordItem.rateRadio">
-              <el-input
-                type="number"
-                oninput="value=value.replace(/[^\d]/g,'')"
-                placeholder=""
-                clearable
-                style="width: 30%"
-                v-model="recordItem.LPRTimes"
-              >
-                <template #append>倍</template>
-              </el-input>
+              <el-row>
+                <el-col :span="8">
+                  <el-input
+                    type="number"
+                    oninput="value=value.replace(/[^\d]/g,'')"
+                    placeholder=""
+                    clearable
+                    style="width: 75%"
+                    v-model="recordItem.LPRTimes"
+                  >
+                    <template #append>倍</template>
+                  </el-input>
+                </el-col>
+                <el-col :span="12">
+                  <el-input
+                    style="width: 50%"
+                    placeholder="输入年份（默认当前年）"
+                    v-model="recordItem.LPRYear"
+                  >
+                    <template #append>年</template>
+                  </el-input>
+                </el-col>
+              </el-row>
             </el-form-item>
 
             <!-- 逾期利息 -->
@@ -281,7 +291,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               <el-select
                 v-model="recordItem.overdueRateSelectValue"
                 placeholder="请选择"
-                @change="overdueRateSelectChange(rateType, recordKey)"
+                @change="overdueRateSelectChange(recordItem.overdueRateSelectValue, recordKey)"
               >
                 <el-option
                   v-for="(item, key) in rateSelect"
