@@ -1,6 +1,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import { useStore } from 'vuex'
 import {
   CaretTop,
   ArrowDownBold,
@@ -10,8 +11,8 @@ import {
 } from "@element-plus/icons";
 import {deepClone} from "../utils";
 
-const count = ref(0);
-const isFolded = ref(false);
+const count = ref(0)
+const isFolded = ref(false)
 const rateSelect = [
   {
     category: "固定利率",
