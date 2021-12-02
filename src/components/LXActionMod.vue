@@ -42,7 +42,7 @@ let basicRecord = { //初始化一个新记录
   fiveYearLPRItemShow: false,
   rate:0,//期内利率
   LPRTimes:0,//LPR倍率
-  LPRYear:'',//期内利率约定的LPR年份
+  LPRYear:'2021-12-02',//期内利率约定的LPR年份
 
   // 逾期利息
   overdueRateRadio: 1, // 选择有无余期利息
@@ -51,17 +51,23 @@ let basicRecord = { //初始化一个新记录
   overdueOneYearLPRItemShow: false,
   overdueFiveYearLPRItemShow: false,
   overdueRate:0,//逾期利率
-  overdueLPRRate:0,//逾期LPR利率
-  overdueLPRYear:'',//逾期利率约定的LPR年份
+  overdueTimes:0,//逾期LPR倍率
+  overdueLPRYear:'2021/12/02',//逾期利率约定的LPR年份
 }
 const records = ref([{...basicRecord}])//深拷贝basicrecord;
+const testfn = () => { //test
+  console.log('records.value',records.value)
+}
+watch(records,(old,newrecord)=>{
+  testfn()
+})
 
 const recordUnfold = (recordKey)=>{
   records.value[recordKey].isFolded = true;
 }
 
 const recordFold = (recordKey)=>{
-  console.log(records.value);
+  records.value[recordKey].isFolded = false;
 }
 
 const addBlankRecord = () => {
@@ -71,9 +77,9 @@ const addBlankRecord = () => {
 }
 
 // 传入recordKey 监控每个record 展开情况
-const rateSelectChange = ($event, recordKey) => {
+const rateSelectChange = (rateType, recordKey) => {
   // recordKey 是数组的下标
-  switch ($event) {
+  switch (rateType) {
     case 1:
       console.log(1);
       records.value[recordKey].stableRateInputShow = true;
@@ -94,9 +100,9 @@ const rateSelectChange = ($event, recordKey) => {
   }
 }
 
-const overdueRateSelectChange = ($event, recordKey) => {
+const overdueRateSelectChange = (rateType, recordKey) => {
   // recordKey 是数组的下标
-  switch ($event) {
+  switch (rateType) {
     case 1:
       console.log(1);
       records.value[recordKey].overdueStableRateInputShow = true;
@@ -108,7 +114,6 @@ const overdueRateSelectChange = ($event, recordKey) => {
       records.value[recordKey].overdueOneYearLPRItemShow = true;
       records.value[recordKey].overdueStableRateInputShow = false;
       records.value[recordKey].overdueFiveYearLPRItemShow = false;
-
       break;
     default:
       records.value[recordKey].overdueFiveYearLPRItemShow = true;
@@ -116,8 +121,7 @@ const overdueRateSelectChange = ($event, recordKey) => {
       records.value[recordKey].overdueStableRateInputShow = false;
   }
 }
-
-</script>
+</script>                                                                                             
 
 <template>
   <div id="basebox">
@@ -150,48 +154,63 @@ const overdueRateSelectChange = ($event, recordKey) => {
       <div
         id="ruleFormClass"
         v-show="!isFolded"
-        v-for="(record, recordKey) in records"
-        :key="record.index"
+        v-for="(recordItem, recordKey) in records"
+        :key="recordItem.index"
       >
-      {{record.index}}
+      {{recordItem.index}}
         <!-- 借款记录标题部分 -->
         <el-row>
           <span class="recordTitle">借款记录-{{ recordKey + 1 }}</span>
         </el-row>
 
         <!-- 借款展开主要内容 -->
-        <div v-show="!record.isFolded">
+        <div v-show="!recordItem.isFolded">
           <el-form label-position="right">
             <el-form-item label="借款时间">
-              <el-date-picker></el-date-picker>
+              <el-date-picker
+              v-model="recordItem.loanLendTime" 
+              type="date" placeholder="选择日期"
+              style="width: 80%;"
+              format="YYYY/MM/DD" value-format="YYYY-MM-DD">
+              </el-date-picker>
             </el-form-item>
             <el-form-item label="到期时间" inline>
-              <el-date-picker></el-date-picker>
+              <el-date-picker
+              v-model="recordItem.loanEndTime" 
+              type="date" placeholder="选择日期"
+              style="width: 80%;"
+              format="YYYY/MM/DD" value-format="YYYY-MM-DD">
+              </el-date-picker>
             </el-form-item>
             <el-form-item label="利息起算时间">
-              <el-date-picker></el-date-picker>
+              <el-date-picker
+              v-model="recordItem.rateStartTime" 
+              type="date" placeholder="选择日期"
+              style="width: 80%;"
+              format="YYYY/MM/DD" value-format="YYYY-MM-DD">
+              </el-date-picker>
             </el-form-item>
             <el-form-item label="借款金额">
-              <el-input style="width: 20%">
+              <el-input style="width: 20%" v-model="recordItem.loanAmount">
                 <template #append>元</template>
               </el-input>
             </el-form-item>
 
             <el-form-item label="期内利率">
-              <el-radio-group v-model="record.rateRadio">
+              <el-radio-group v-model="recordItem.rateRadio">
                 <el-radio :label="1">有</el-radio>
                 <el-radio :label="0">无</el-radio>
               </el-radio-group>
             </el-form-item>
 
-            <el-form-item label="期内利率种类" v-if="record.rateRadio">
+            <el-form-item label="期内利率种类" v-if="recordItem.rateRadio">
               <el-select
-                v-model="record.rateSelectValue"
+                v-model="recordItem.rateSelectValue"
                 placeholder="请选择"
-                @change="rateSelectChange($event, recordKey)"
+                @change="rateSelectChange(rateType, recordKey)"
               >
                 <el-option
-                  v-for="(item, key) in record.rateSelect"
+                  v-for="(item, key) in rateSelect"
                   :key="key"
                   :label="item.category"
                   :value="item.value"
@@ -202,15 +221,15 @@ const overdueRateSelectChange = ($event, recordKey) => {
             <!-- 固定利率输入框 -->
             <el-form-item
               label="利率："
-              v-if="record.stableRateInputShow && record.rateRadio"
+              v-if="recordItem.stableRateInputShow && recordItem.rateRadio"
             >
-              <el-input style="width: 20%" type="number">
+              <el-input style="width: 20%" type="number" v-model="recordItem.rate">
                 <template #append>%</template>
               </el-input>
             </el-form-item>
 
             <!-- 一年期 利率倍数输入框 + 年份输入框 -->
-            <el-form-item v-if="record.oneYearLPRItemShow && record.rateRadio">
+            <el-form-item v-if="recordItem.oneYearLPRItemShow && recordItem.rateRadio">
               <el-row>
                 <el-col :span="8">
                   <el-input
@@ -219,15 +238,16 @@ const overdueRateSelectChange = ($event, recordKey) => {
                     placeholder=""
                     clearable
                     style="width: 75%"
+                    v-model="recordItem.LPRTimes"
                   >
                     <template #append>倍</template>
                   </el-input>
                 </el-col>
-
                 <el-col :span="12">
                   <el-input
                     style="width: 50%"
                     placeholder="输入年份（默认当前年）"
+                    v-model="recordItem.LPRYear"
                   >
                     <template #append>年</template>
                   </el-input>
@@ -236,37 +256,35 @@ const overdueRateSelectChange = ($event, recordKey) => {
             </el-form-item>
 
             <!-- 五年期 利率倍数输入框 -->
-            <el-form-item v-if="record.fiveYearLPRItemShow && record.rateRadio">
-              <!-- <el-input-number style="width: 30%" controls-position="right">
-             
-            </el-input-number> -->
+            <el-form-item v-if="recordItem.fiveYearLPRItemShow && recordItem.rateRadio">
               <el-input
                 type="number"
                 oninput="value=value.replace(/[^\d]/g,'')"
                 placeholder=""
                 clearable
                 style="width: 30%"
+                v-model="recordItem.LPRTimes"
               >
                 <template #append>倍</template>
               </el-input>
             </el-form-item>
 
-            <!-- 余期利息 -->
+            <!-- 逾期利息 -->
             <el-form-item label="逾期利率">
-              <el-radio-group v-model="record.overdueRateRadio">
+              <el-radio-group v-model="recordItem.overdueRateRadio">
                 <el-radio :label="1">有</el-radio>
                 <el-radio :label="0">无</el-radio>
               </el-radio-group>
             </el-form-item>
 
-            <el-form-item label="逾期利率种类" v-if="record.overdueRateRadio">
+            <el-form-item label="逾期利率种类" v-if="recordItem.overdueRateRadio">
               <el-select
-                v-model="record.overdueRateSelectValue"
+                v-model="recordItem.overdueRateSelectValue"
                 placeholder="请选择"
-                @change="overdueRateSelectChange($event, recordKey)"
+                @change="overdueRateSelectChange(rateType, recordKey)"
               >
                 <el-option
-                  v-for="(item, key) in record.overdueRateSelect"
+                  v-for="(item, key) in rateSelect"
                   :key="key"
                   :label="item.category"
                   :value="item.value"
@@ -274,21 +292,21 @@ const overdueRateSelectChange = ($event, recordKey) => {
               </el-select>
             </el-form-item>
 
-            <!-- 固定利率输入框 -->
+            <!-- 固定逾期利率输入框 -->
             <el-form-item
               label="利率："
               v-if="
-                record.overdueStableRateInputShow && record.overdueRateRadio
+                recordItem.overdueStableRateInputShow && recordItem.overdueRateRadio
               "
             >
-              <el-input style="width: 20%" type="number">
+              <el-input style="width: 20%" type="number" v-model="recordItem.overdueRate">
                 <template #append>%</template>
               </el-input>
             </el-form-item>
 
-            <!-- 一年期 利率倍数输入框 + 年份输入框 -->
+            <!-- 一年期 逾期利率倍数输入框 + 年份输入框 -->
             <el-form-item
-              v-if="record.overdueOneYearLPRItemShow && record.overdueRateRadio"
+              v-if="recordItem.overdueOneYearLPRItemShow && recordItem.overdueRateRadio"
             >
               <el-row>
                 <el-col :span="8">
@@ -298,6 +316,7 @@ const overdueRateSelectChange = ($event, recordKey) => {
                     placeholder=""
                     clearable
                     style="width: 75%"
+                    v-model="recordItem.overdueTimes"
                   >
                     <template #append>倍</template>
                   </el-input>
@@ -307,6 +326,7 @@ const overdueRateSelectChange = ($event, recordKey) => {
                   <el-input
                     style="width: 50%"
                     placeholder="输入年份（默认当前年）"
+                    v-model="recordItem.overdueLPRYear"
                   >
                     <template #append>年</template>
                   </el-input>
@@ -314,24 +334,36 @@ const overdueRateSelectChange = ($event, recordKey) => {
               </el-row>
             </el-form-item>
 
-            <!-- 五年期 利率倍数输入框 -->
+            <!-- 五年期 逾期利率倍数输入框 -->
             <el-form-item
               v-if="
-                record.overdueFiveYearLPRItemShow && record.overdueRateRadio
+                recordItem.overdueFiveYearLPRItemShow && recordItem.overdueRateRadio
               "
             >
-              <!-- <el-input-number style="width: 30%" controls-position="right">
-             
-            </el-input-number> -->
-              <el-input
-                type="number"
-                oninput="value=value.replace(/[^\d]/g,'')"
-                placeholder=""
-                clearable
-                style="width: 30%"
-              >
-                <template #append>倍</template>
-              </el-input>
+              <el-row>
+                <el-col :span="8">
+                  <el-input
+                    type="number"
+                    oninput="value=value.replace(/[^\d]/g,'')"
+                    placeholder=""
+                    clearable
+                    style="width: 75%"
+                    v-model="recordItem.overdueTimes"
+                  >
+                    <template #append>倍</template>
+                  </el-input>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-input
+                    style="width: 50%"
+                    placeholder="输入年份（默认当前年）"
+                    v-model="recordItem.overdueLPRYear"
+                  >
+                    <template #append>年</template>
+                  </el-input>
+                </el-col>
+              </el-row>
             </el-form-item>
           </el-form>
           <!-- 借款记录展开主要内容下部分按钮 和 收起 -->
@@ -348,7 +380,7 @@ const overdueRateSelectChange = ($event, recordKey) => {
         </div>
 
         <!-- 借款记录收起主要内容 -->
-        <el-row v-show="record.isFolded">
+        <el-row v-show="recordItem.isFolded">
           <el-col :span="4"> 借款时间：{{}} </el-col>
           <el-col :span="4"> 借款金额 {{}} 元 </el-col>
           <el-col :span="6" @click="recordFold(recordKey)">
@@ -369,12 +401,12 @@ const overdueRateSelectChange = ($event, recordKey) => {
 
 <style scoped>
 #basebox {
-  /* position: relative;
+  position: relative;
   width: 100%;
   font-size: 2rem;
   display: flex;
   justify-self: start;
-  text-align: left; */
+  text-align: left;
 }
 
 #ruleFormClass {
