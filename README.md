@@ -49,6 +49,8 @@ const store = createStore({
 - vuex中直接存储响应式ref数据，便于直接在组件中直接使用；
 
 ## 前端UI组件使用
+
+### element-plus组件的使用：
 - 除了icon组件之外的其他组件已经实现自动化引入，无需额外的import,例如：
 ```
 <el-radio-group v-model="ruleForm.isNatural">
@@ -66,10 +68,28 @@ import {ArrowDownBold} from '@element-plus/icons'// 引入
 
 // 注意：element-ui迁移到svg类型库后，原始官网的参考代码需要修改为驼峰命名
 ```
+
+## 其他工具
+- 复制功能使用[vue3-clipboard](https://www.npmjs.com/package/vue3-clipboard)实现，典型代码如下：
+```
+      const doCopy = () => {
+        copyText('Hello Clipborad', undefined, (error, event) => {
+          if (error) {
+            alert('Can not copy')
+            console.log(error)
+          } else {
+            alert('Copied')
+            console.log(event)
+          }
+        })
+      }
+```
+
 ## 关于布局
 由于本项目目标为嵌入其他系统内部使用，故此需要充分考虑自适应问题：
 - 通过媒体查询实现了根据页面宽度自适应。
 - 项目内除边框宽度外，切忌使用px等绝对单位，全部使用rem和百分数作为长度单位。
+- 待解决问题：配置全局的element-ui样式。
 
 ## git提交代码要求
 - 目前的开发分支为commondev，另外为新建有xieziheng分支、liutianyi分支，请务必在各自名字下的分支进行开发和提交远程代码；

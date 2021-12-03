@@ -55,7 +55,7 @@ const store = createStore({
 });
 
 const app = createApp(App)
-app.use(store);
+app.use(store)
 app.config.globalProperties.$ELEMENT = {
     // options
     // 可以传入一个包含 size 和 zIndex 属性的全局配置对象。 size 用于设置表单组件的默认尺寸，zIndex 用于设置弹出组件的层级，zIndex 的默认值为 2000。   
