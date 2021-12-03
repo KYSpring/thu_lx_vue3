@@ -65,7 +65,7 @@ const addLendRecord = ()=>{
           ref="getRuleForm"
           :model="ruleForm"
           :rules="rules"
-          label-width="40%"
+          label-width="45%"
           font-size="10rem"
         >
         <el-row justify="space-between" align="middle">
@@ -100,15 +100,15 @@ const addLendRecord = ()=>{
         </el-row>    
 
         <el-row justify="space-between">
-          <el-col :span=10>
-            <el-form-item label="是否有合同成立时间:" prop="isContractStart">
+          <el-col :span=8>
+            <el-form-item label="有无合同成立时间:" prop="isContractStart">
               <el-radio-group v-model="ruleForm.isContractStart">
                 <el-radio :label="true">是</el-radio>
                 <el-radio :label="false">否</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span=10>
+          <el-col :span=8>
             <el-form-item v-if="ruleForm.isContractStart" label="合同成立时间:">
               <el-date-picker 
               v-model="ruleForm.acceptanceTime" 
@@ -118,22 +118,24 @@ const addLendRecord = ()=>{
               </el-date-picker>
             </el-form-item>
           </el-col>
+          <el-col :span=8></el-col>
         </el-row>  
 
         <el-row justify="space-between">
-          <el-col :span=10>
-            <el-form-item label="是否约定违约金：" prop="isLiquidatedDamage">
+          <el-col :span=8>
+            <el-form-item label="是否约定违约金:" prop="isLiquidatedDamage">
               <el-radio-group v-model="ruleForm.isLiquidatedDamage">
                 <el-radio :label="true">是</el-radio>
                 <el-radio :label="false">否</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span=10>
-            <el-form-item v-if="ruleForm.isLiquidatedDamage" label="违约金金额：">
+          <el-col :span=8>
+            <el-form-item v-if="ruleForm.isLiquidatedDamage" label="违约金金额:">
               <el-input v-model="ruleForm.liquidatedDamage" style="width:80%"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span=8></el-col>
         </el-row>    
         </el-form>
       </div>
