@@ -3,12 +3,14 @@
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import LXInfoModVue from './components/LXInfoMod.vue';
 import LXActionModVue from './components/LXActionMod.vue';
+import LXBalanceModVue from './components/LXBalanceMod.vue';
 </script>
 
 <template>
     <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
       <LXInfoModVue></LXInfoModVue>
       <LXActionModVue></LXActionModVue> 
+      <LXBalanceModVue></LXBalanceModVue>
 </template>
 
 <style>

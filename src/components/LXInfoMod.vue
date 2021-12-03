@@ -139,7 +139,7 @@ const addLendRecord = ()=>{
       </div>
       <el-row justify="end">
         <el-col :span="4">
-          <el-button type="primary" @click="addLendRecord">添加借款记录</el-button>
+          <el-button type="primary" size="medium" @click="addLendRecord">添加借款记录</el-button>
         </el-col>
       </el-row>
     </el-card>

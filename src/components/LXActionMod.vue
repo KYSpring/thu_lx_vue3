@@ -180,11 +180,11 @@ const overdueRateSelectChange = (rateType, recordKey) => {
           </el-icon>
         </el-col>
         <el-col :span="10">
-          <el-button type="primary" @click="copyRecord(recordKey)">复制本记录</el-button>
-          <el-button type="info" @click="addBlankRecord"
+          <el-button type="primary" size="medium" @click="copyRecord(recordKey)">复制本记录</el-button>
+          <el-button type="info" size="medium" @click="addBlankRecord"
             >新建空白记录</el-button
           >
-          <el-button type="danger" @click="deleteRecord(recordKey)">删除</el-button>
+          <el-button type="danger" size="medium" @click="deleteRecord(recordKey)">删除</el-button>
         </el-col>
       </el-row>
 
@@ -442,11 +442,12 @@ const overdueRateSelectChange = (rateType, recordKey) => {
 
         <!-- 借款记录展开主要内容下部分按钮 和 收起 -->
         <el-row justify="space-between">
-          <el-col :span="8"></el-col>
-          <el-col :span="8">
-            <el-button type="primary">保存</el-button>
-            <el-button type="info" @click="resetRecord(recordKey)">清除</el-button>
-            <el-button >添加还款记录</el-button>
+          <el-col :span="6">
+            <el-button size="medium">添加还款记录</el-button>
+          </el-col>
+          <el-col :span="6">
+            <el-button type="primary" size="medium"> 保存</el-button>
+            <el-button type="info" size="medium" @click="resetRecord(recordKey)">清除</el-button>
           </el-col>
         </el-row>
       </div>

@@ -6,9 +6,6 @@ import { ElMessage } from 'element-plus'
 import {ArrowDownBold,ArrowUpBold,Document,MoreFilled} from '@element-plus/icons'
 import { copyText } from 'vue3-clipboard'
 
-defineProps({
-  msg: String
-})
 const isFolded = ref(false)
 const waitPayData = [
   {
