@@ -60,7 +60,7 @@ const addLendRecord = ()=>{
         </el-col>
       </el-row>
       <!-- 要素部分 -->
-      <div id="ruleFormClass" v-show="!isFolded">
+      <div class="ruleFormClass" v-show="!isFolded">
         <el-form
           ref="getRuleForm"
           :model="ruleForm"
@@ -161,8 +161,7 @@ const addLendRecord = ()=>{
 #iconbox{
   font-size: 10rem;
 }
-#ruleFormClass{
-  /* background: rgb(250, 250, 250); */
+.ruleFormClass{
   padding: 2rem;
   border:1px solid gray;
   border-radius: 5px;

@@ -23,7 +23,7 @@ font-size:10.24px;
   text-align: center;
   color: #2c3e50;
   width: 1024px;
-  height: 100vh;
+  /* height: 100vh; */
   padding: 2rem;
   margin:auto;
   border:2px solid gray;
@@ -42,7 +42,7 @@ font-size:10.24px;
       text-align: center;
       color: #2c3e50;
       width: 100vw;
-      height: 100vh;
+      /* height: 100vh; */
       padding: 2rem;
       border:2px solid gray;
       border-radius: 25px;
