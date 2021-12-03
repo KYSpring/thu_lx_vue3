@@ -13,7 +13,10 @@ import LXActionModVue from './components/LXActionMod.vue';
 
 <style>
 html {
-font-size:10.24px;
+  font-size:10.24px;
+}
+:root {
+  --el-font-size-base:1.3rem;
 }
 #app {
   position: relative;
@@ -33,6 +36,9 @@ font-size:10.24px;
 @media (max-width: 1024px) {
     html {
       font-size:1vw;
+    }
+    :root {
+      --el-font-size-base:1.3rem;
     }
     #app {
       position: relative;

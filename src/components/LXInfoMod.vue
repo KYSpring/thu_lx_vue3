@@ -66,6 +66,7 @@ const addLendRecord = ()=>{
           :model="ruleForm"
           :rules="rules"
           label-width="40%"
+          font-size="10rem"
         >
         <el-row justify="space-between">
           <el-col :span=8>
