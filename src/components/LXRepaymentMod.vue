@@ -21,7 +21,9 @@ const {loanKey, records} = defineProps({
 const LXStore = useStore()
 // 如果使用如下写法而不是用父子传参会出现子组件数据不能响应式更新的情况，背后原因待查明
 // const records = LXStore.state.LXAction[loanKey].LXLoan.LXRepayment;
-
+const hasOverdueRate = computed(()=>{
+  return LXStore.state.LXAction[loanKey].LXLoan.overdueRateRadio
+})
 const basicRecord = {
   isFolded: true, //本记录折叠状态
   repayPrincipalRadio: 1,//是否优先赔偿本金
@@ -134,7 +136,7 @@ function recordUnfold(recordKey) {
                 </el-form-item>          
               </el-col>
               <el-col :span="10">
-                <el-form-item label="逾期利息计算时间:">
+                <el-form-item label="逾期利息计算时间:" v-if="hasOverdueRate">
                   <el-date-picker
                     type="daterange"
                     v-model="record.overdueTimeRange"

@@ -112,7 +112,7 @@ const addLendRecord = ()=>{
           <el-col :span=8>
             <el-form-item v-if="ruleForm.isContractStart" label="合同成立时间:">
               <el-date-picker 
-              v-model="ruleForm.acceptanceTime" 
+              v-model="ruleForm.contractStartTime" 
               type="date" placeholder="选择日期"
               style="width: 80%;"
               format="YYYY/MM/DD" value-format="YYYY-MM-DD"> 
