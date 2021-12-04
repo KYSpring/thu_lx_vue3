@@ -7,55 +7,15 @@ import {ArrowDownBold,ArrowUpBold,Document,MoreFilled} from '@element-plus/icons
 import { copyText } from 'vue3-clipboard'
 
 const isFolded = ref(false)
-const waitPayData = [
-  {
-    value: '20160503',
-    name: '待还本金（元）',
-  },
-  {
-    value: '20160503',
-    name: '待还利息（元）',
-  },
-]
-const paidData = [
-  {
-    value: '20160503',
-    name: '已还本金（元）',
-  },
-  {
-    value: '20160503',
-    name: '已还利息（元）',
-  },
-]
-const activities = [
-  {
-    content: 'Custom icon',
-    timestamp: '2018-04-12 20:46',
-    size: 'large',
-    type: 'primary',
-    icon: MoreFilled,
-  },
-  {
-    content: 'Custom color',
-    timestamp: '2018-04-03 20:46',
-    color: '#0bbd87',
-  },
-  {
-    content: 'Custom size',
-    timestamp: '2018-04-03 20:46',
-    size: 'large',
-  },
-  {
-    content: 'Custom hollow',
-    timestamp: '2018-04-03 20:46',
-    type: 'primary',
-    hollow: true,
-  },
-  {
-    content: 'Default node',
-    timestamp: '2018-04-03 20:46',
-  }
-]
+const LXStore = useStore()
+const records = LXStore.state.LXAction
+
+const  {waitPayData, paidData, activities} = defineProps({
+  waitPayData:Array,
+  paidData:Array,
+  activities:Array,
+})
+
 const formatResult = computed(()=>{
   return `${waitPayData[0].name}：${waitPayData[0].value}；
   ${waitPayData[1].name}：${waitPayData[1].value}；
@@ -104,6 +64,60 @@ const getSummaries = (param) => {
   })
   return sums
 }
+const getBalance = (recordKey)=>{
+  console.log('recordKey',records[recordKey])
+  records[recordKey].LXBalance = {
+    waitPayData: [
+      {
+        value: '20160503',
+        name: '待还本金（元）',
+      },
+      {
+        value: '20160503',
+        name: '待还利息（元）',
+      },
+    ],
+    paidData:[
+      {
+        value: '20160503',
+        name: '已还本金（元）',
+      },
+      {
+        value: '20160503',
+        name: '已还利息（元）',
+      },
+    ],
+    activities: [
+      {
+        content: 'Custom icon',
+        timestamp: '2018-04-12 20:46',
+        size: 'large',
+        type: 'primary',
+        icon: 'MoreFilled',
+      },
+      {
+        content: 'Custom color',
+        timestamp: '2018-04-03 20:46',
+        color: '#0bbd87',
+      },
+      {
+        content: 'Custom size',
+        timestamp: '2018-04-03 20:46',
+        size: 'large',
+      },
+      {
+        content: 'Custom hollow',
+        timestamp: '2018-04-03 20:46',
+        type: 'primary',
+        hollow: true,
+      },
+      {
+        content: 'Default node',
+        timestamp: '2018-04-03 20:46',
+      }
+    ]
+  }
+}
 onMounted(()=>{
   ElMessage.success('按需引入');
 })
@@ -111,6 +125,9 @@ onMounted(()=>{
 
 <template>
 <div id="basebox">
+  <el-row justify="center" style="margin:1rem 0" v-if="waitPayData.length">
+    <el-button type="success" round plain class="balanceButton" @click="getBalance(recordKey)"> + 结算本次借款</el-button>
+  </el-row>
   <el-card shadow="hover" style="width:100%">
     <!-- title部分 -->
     <el-row justify="space-between">

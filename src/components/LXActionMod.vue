@@ -1,6 +1,6 @@
 
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from 'vuex'
 import {
   CaretTop,
@@ -10,6 +10,8 @@ import {
   CaretBottom,
 } from "@element-plus/icons";
 import {deepClone} from "../utils";
+import LXRepaymentModVue from './LXRepaymentMod.vue';
+import LXBalanceModVue from "./LXBalanceMod.vue";
 
 const LXStore = useStore()
 
@@ -61,22 +63,24 @@ const basicRecord = { //初始化的新借还款记录
   LXBalance:{}
 }
 const addBlankRecord = () => {
+  const newLXLoan = {...basicRecord.LXLoan}
+  newLXLoan.LXRepayment = [] //针对对象类型需要深拷贝
   records.push({
-    index:records.length,
     isFolded:false,
-    LXLoan:{...basicRecord.LXLoan},
+    LXLoan:newLXLoan,
     LXBalance:{}
   });
-  console.log(LXStore.state.LXAction)
+  console.log('addBlankRecord',LXStore.state.LXAction)
 }
 const copyRecord = (recordKey) => {
+  let newLXLoan = {...records[recordKey].LXLoan}
+  newLXLoan.LXRepayment = [] //针对对象类型需要深拷贝
   records.push({
-    index:records.length,
     isFolded:false,
-    LXLoan:{...records[recordKey].LXLoan},
+    LXLoan:newLXLoan,
     LXBalance:{}
   });
-  console.log(LXStore.state.LXAction)
+  console.log('copyRecord',recordKey,LXStore.state.LXAction)
 }
 const resetRecord = (recordKey) => {
   records[recordKey] = {
@@ -90,8 +94,7 @@ const deleteRecord = (recordKey) => {
   if(records.length<=1){
     alert('已是最后一条记录！')
   } else {
-    records.splice(recordKey,1);
-    console.log(LXStore.state.LXAction)
+    records.splice(recordKey,1)
   }
 }
 const recordUnfold = (recordKey)=>{
@@ -152,6 +155,22 @@ const overdueRateSelectChange = (rateType, recordKey) => {
       records[recordKey].LXLoan.overdueStableRateInputShow = false;
   }
 }
+
+const addRepayRecord = (recordKey) => {
+  console.log('addRepayRecord',recordKey)
+  const basicRecord = {
+    isFolded: true, //本记录折叠状态
+    repayPrincipalRadio: 1,//是否优先赔偿本金
+    repayTime: '',//还款时间
+    rateTimeRange: [],//期内利息起算和终止时间
+    overdueTimeRange:[],//逾期利息起算和终止时间
+    repayPrincipal:0,//偿还本金金额
+    repayRate:0,//偿还利息金额
+    repayTotal:0,//偿还总金额
+  }
+  LXStore.state.LXAction[recordKey].LXLoan.LXRepayment.push({...basicRecord})
+  console.log(LXStore.state.LXAction[recordKey].LXLoan.LXRepayment)
+}
 </script>                                                                                             
 
 <template>
@@ -190,25 +209,26 @@ const overdueRateSelectChange = (rateType, recordKey) => {
 
       <!-- 借款展开主要内容 -->
       <div class="ruleFormClass" v-show="!recordItem.isFolded">
-        <el-form label-position="right">
-          <el-row justify="space-around">
+        <el-form label-position="right" label-width="45%">
+          <el-row justify="space-between">
             <el-col :span="8">
               <el-form-item label="借款时间:">
                 <el-date-picker
                 v-model="recordItem.LXLoan.loanLendTime" 
                 type="date" placeholder="选择日期:"
-                style="width: 80%;"
+                style="width: 90%;"
                 format="YYYY-MM-DD" value-format="YYYY-MM-DD">
                 </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="借款金额">
-                <el-input  v-model="recordItem.LXLoan.loanAmount">
+              <el-form-item label="借款金额:">
+                <el-input  v-model="recordItem.LXLoan.loanAmount"> 
                   <template #append>元</template>
                 </el-input>
               </el-form-item> 
             </el-col>
+            <el-col :span="8"></el-col>
           </el-row>
           <el-row justify="space-around">
             <el-col :span="8">
@@ -216,25 +236,26 @@ const overdueRateSelectChange = (rateType, recordKey) => {
                 <el-date-picker
                 v-model="recordItem.LXLoan.loanEndTime" 
                 type="date" placeholder="选择日期"
-                style="width: 80%;"
+                style="width: 90%;"
                 format="YYYY-MM-DD" value-format="YYYY-MM-DD">
                 </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="利息起算时间">
+              <el-form-item label="利息起算时间:">
                 <el-date-picker
                 v-model="recordItem.LXLoan.rateStartTime" 
                 type="date" placeholder="选择日期"
-                style="width: 80%;"
+                style="width: 90%;"
                 format="YYYY-MM-DD" value-format="YYYY-MM-DD">
                 </el-date-picker>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
           </el-row>
           <el-row justify="space-around">
             <el-col :span="8">
-              <el-form-item label="期内利率">
+              <el-form-item label="期内利率:">
                 <el-radio-group v-model="recordItem.LXLoan.rateRadio">
                   <el-radio :label="1">有</el-radio>
                   <el-radio :label="0">无</el-radio>
@@ -242,7 +263,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="期内利率种类" v-if="recordItem.LXLoan.rateRadio">
+              <el-form-item label="期内利率种类:" v-if="recordItem.LXLoan.rateRadio">
                 <el-select
                   v-model="recordItem.LXLoan.rateSelectValue"
                   placeholder="请选择"
@@ -257,28 +278,29 @@ const overdueRateSelectChange = (rateType, recordKey) => {
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
           </el-row>
           
           <!-- 固定利率输入框 -->
           <el-row justify="space-around" v-if="recordItem.LXLoan.stableRateInputShow && recordItem.LXLoan.rateRadio">
             <el-col :span="8">
               <el-form-item
-                label="利率："
+                label="利率:"
               >
-                <el-input type="number" style="width: 80%" v-model="recordItem.LXLoan.rate">
+                <el-input type="number" v-model="recordItem.LXLoan.rate">
                   <template #append>%</template>
                 </el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
             <el-col :span="8"></el-col>
           </el-row>
           
           <!-- 一年期 利率倍数输入框 + 年份输入框 -->
           <el-row justify="space-around" v-if="recordItem.LXLoan.oneYearLPRItemShow && recordItem.LXLoan.rateRadio">
             <el-col :span="8">
-              <el-form-item label="倍率">
+              <el-form-item label="倍率:">
                 <el-input
-                  style="width:50%"
                   type="number"
                   oninput="value=value.replace(/[^\d]/g,'')"
                   placeholder=""
@@ -290,9 +312,8 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="年份">
+              <el-form-item label="年份:">
                 <el-input
-                  style="width:80%"
                   placeholder="输入年份（默认当前年）"
                   v-model="recordItem.LXLoan.LPRYear"
                 >
@@ -300,18 +321,18 @@ const overdueRateSelectChange = (rateType, recordKey) => {
                 </el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
           </el-row>
 
           <!-- 五年期 利率倍数输入框 -->
           <el-row justify="space-around" v-if="recordItem.LXLoan.fiveYearLPRItemShow && recordItem.LXLoan.rateRadio">
             <el-col :span="8">
-              <el-form-item label="倍率">
+              <el-form-item label="倍率:">
                 <el-input
                   type="number"
                   oninput="value=value.replace(/[^\d]/g,'')"
                   placeholder=""
                   clearable
-                  style="width: 50%"
                   v-model="recordItem.LXLoan.LPRTimes"
                 >
                   <template #append>倍</template>
@@ -319,9 +340,8 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="年份">
+              <el-form-item label="年份:">
                 <el-input
-                  style="width: 80%"
                   placeholder="输入年份（默认当前年）"
                   v-model="recordItem.LXLoan.LPRYear"
                 >
@@ -329,13 +349,14 @@ const overdueRateSelectChange = (rateType, recordKey) => {
                 </el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
           </el-row>
           
           
           <!-- 逾期利息 -->
           <el-row justify="space-around">
             <el-col :span="8">
-              <el-form-item label="逾期利率">
+              <el-form-item label="逾期利率:">
                 <el-radio-group v-model="recordItem.LXLoan.overdueRateRadio">
                   <el-radio :label="1">有</el-radio>
                   <el-radio :label="0">无</el-radio>
@@ -343,7 +364,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="逾期利率种类" v-if="recordItem.LXLoan.overdueRateRadio">
+              <el-form-item label="逾期利率种类:" v-if="recordItem.LXLoan.overdueRateRadio">
                 <el-select
                   v-model="recordItem.LXLoan.overdueRateSelectValue"
                   placeholder="请选择"
@@ -358,6 +379,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
           </el-row>   
 
           <!-- 固定逾期利率输入框 -->
@@ -368,11 +390,12 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               <el-form-item
                 label="利率："
               >
-                <el-input type="number" style="width: 80%" v-model="recordItem.LXLoan.overdueRate">
+                <el-input type="number" v-model="recordItem.LXLoan.overdueRate">
                   <template #append>%</template>
                 </el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
             <el-col :span="8"></el-col>
           </el-row>
 
@@ -382,13 +405,12 @@ const overdueRateSelectChange = (rateType, recordKey) => {
           v-if="recordItem.LXLoan.overdueOneYearLPRItemShow && recordItem.LXLoan.overdueRateRadio"
           >
             <el-col :span="8">
-              <el-form-item label="倍率">
+              <el-form-item label="倍率:">
                 <el-input
                   type="number"
                   oninput="value=value.replace(/[^\d]/g,'')"
                   placeholder=""
                   clearable
-                  style="width: 50%"
                   v-model="recordItem.LXLoan.overdueTimes"
                 >
                   <template #append>倍</template>
@@ -396,9 +418,8 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="年份">
+              <el-form-item label="年份:">
                 <el-input
-                  style="width: 80%"
                   placeholder="输入年份（默认当前年）"
                   v-model="recordItem.LXLoan.overdueLPRYear"
                 >
@@ -406,6 +427,7 @@ const overdueRateSelectChange = (rateType, recordKey) => {
                 </el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
           </el-row>
 
           <!-- 五年期 逾期利率倍数输入框 -->
@@ -413,13 +435,12 @@ const overdueRateSelectChange = (rateType, recordKey) => {
           v-if="recordItem.LXLoan.overdueFiveYearLPRItemShow && recordItem.LXLoan.overdueRateRadio"
           >
             <el-col :span="8">
-              <el-form-item label="倍率">
+              <el-form-item label="倍率:">
                 <el-input
                   type="number"
                   oninput="value=value.replace(/[^\d]/g,'')"
                   placeholder=""
                   clearable
-                  style="width: 50%"
                   v-model="recordItem.LXLoan.overdueTimes"
                 >
                   <template #append>倍</template>
@@ -427,28 +448,40 @@ const overdueRateSelectChange = (rateType, recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="年份">
+              <el-form-item label="年份:">
                 <el-input
-                  style="width: 80%"
-                  placeholder="输入年份（默认当前年）"
+                  placeholder="输入年份（默认当前年）:"
                   v-model="recordItem.LXLoan.overdueLPRYear"
                 >
                   <template #append>年</template>
                 </el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="8"></el-col>
           </el-row>
         </el-form>
 
         <!-- 借款记录展开主要内容下部分按钮 和 收起 -->
         <el-row justify="space-between">
           <el-col :span="6">
-            <el-button size="medium">添加还款记录</el-button>
+            <el-button size="medium" @click="addRepayRecord(recordKey)">添加还款记录</el-button>
           </el-col>
           <el-col :span="6">
             <el-button type="primary" size="medium"> 保存</el-button>
             <el-button type="info" size="medium" @click="resetRecord(recordKey)">清除</el-button>
           </el-col>
+        </el-row>
+        
+        <!-- 还款记录容器 -->
+        <el-row id="repayContainer">
+          <LXRepaymentModVue :loanKey="recordKey" :records="recordItem.LXLoan.LXRepayment"></LXRepaymentModVue>
+        </el-row>
+
+        <!-- 结算容器 -->
+        <el-row>
+          <LXBalanceModVue
+          :waitPayData="recordItem.LXBalance.waitPayData">
+          </LXBalanceModVue>
         </el-row>
       </div>
 
@@ -477,5 +510,15 @@ const overdueRateSelectChange = (rateType, recordKey) => {
 }
 .recordTitle {
   font-size: 1.5rem;
+}
+#repayContainer {
+  background: rgb(246, 245, 245);
+  padding: 1rem;
+  margin: 1rem 0 0 0;
+}
+.balanceButton {
+  width: 30%;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 </style>

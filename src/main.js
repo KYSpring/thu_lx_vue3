@@ -16,7 +16,7 @@ const store = createStore({
         },
         LXAction:[//借还款记录
           {
-            index: 0,//与records中的索引保持一致[待定：尽量删除]
+            // index: 0,//与records中的索引保持一致[待定：尽量删除]
             isFolded: false,//面板折叠状态
             LXLoan:{ //借款记录
               loanLendTime:'',//借款时间
@@ -44,8 +44,19 @@ const store = createStore({
               overdueTimes:0,//逾期LPR倍率
               overdueLPRYear:'',//逾期利率约定的LPR年份
 
-              //还款记录
-              LXRepayment:[],
+              //还款记录,可能存在多个
+              LXRepayment:[
+                {
+                  isFolded: true, //本记录折叠状态
+                  repayPrincipalRadio: 1,//是否优先赔偿本金
+                  repayTime: '',//还款时间
+                  rateTimeRange: [],//期内利息起算和终止时间
+                  overdueTimeRange:[],//逾期利息起算和终止时间
+                  repayPrincipal:0,//偿还本金金额
+                  repayRate:0,//偿还利息金额
+                  repayTotal:0,//偿还总金额
+                }
+              ],
             },
             LXBalance:{}
           }

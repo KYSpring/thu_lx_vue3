@@ -4,13 +4,13 @@
 import LXInfoModVue from './components/LXInfoMod.vue';
 import LXActionModVue from './components/LXActionMod.vue';
 import LXBalanceModVue from './components/LXBalanceMod.vue';
+import LXRepaymentModVue from './components/LXRepaymentMod.vue';
 </script>
 
 <template>
     <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
       <LXInfoModVue></LXInfoModVue>
       <LXActionModVue></LXActionModVue> 
-      <LXBalanceModVue></LXBalanceModVue>
 </template>
 
 <style>
