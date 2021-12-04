@@ -150,28 +150,29 @@ function recordUnfold(recordKey) {
             </el-row>   
 
             <!-- 优先偿还本金情况下出来的内容 -->
-            <el-row justify="start" v-if="record.repayPrincipalRadio">
-              <el-col :span="8" >
+            <el-row justify="space-around" v-if="record.repayPrincipalRadio">
+              <el-col :span="10" >
                  <el-form-item label="偿还本金金额:" >
                   <el-input v-model="record.repayPrincipal">
                     <template #append>元</template>
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="10">
                 <el-form-item label="偿还利息金额:" >
                   <el-input v-model="record.repayRate">
                     <template #append>元</template>
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="10">
                 <el-form-item label="还款总金额:">
                   <el-input v-model="record.repayTotal">
                     <template #append>元</template>
                   </el-input>
                 </el-form-item>
               </el-col>
+              <el-col :span="10"></el-col>
             </el-row>   
             
             <!-- 未约定优先偿还本金情况下出来的内容 -->

@@ -9,11 +9,35 @@ import LXRepaymentModVue from './components/LXRepaymentMod.vue';
 
 <template>
     <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
+    <el-header height="3rem" class="headerTitle">
+      <el-row justify="start">
+        <el-col :span="3"></el-col>
+        <el-col :span="3" class="firsttitle">
+          <span>民间借贷利息计算器</span>
+        </el-col>
+      </el-row>
+    </el-header>
       <LXInfoModVue></LXInfoModVue>
       <LXActionModVue></LXActionModVue> 
 </template>
 
 <style>
+.headerTitle{
+  position: absolute;
+  left:-20vw;
+  top:-1rem;
+  width:100vw;
+  height: 30rem;
+  color:white;
+  font-size:3rem;
+  font-weight: bolder;
+  padding:5px;
+}
+.firsttitle{
+  text-indent: 2rem;
+  -webkit-writing-mode: vertical-lr;
+  writing-mode: vertical-lr;
+}
 html {
   font-size:9px;
   background-image: url('./assets/bluebkg.jpg');

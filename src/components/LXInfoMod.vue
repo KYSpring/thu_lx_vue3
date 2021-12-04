@@ -154,7 +154,8 @@ const addLendRecord = ()=>{
   position: relative;
   font-size:2rem;
   display: block;
-  margin:0.5rem
+  justify-content: start;
+  margin:0.5rem 0
 }
 #iconbox{
   font-size: 8rem;
@@ -165,7 +166,7 @@ const addLendRecord = ()=>{
   border-radius: 5px;
 }
 .boxheader{
-  font-size:2rem;
+  font-size:1.7rem;
   font-weight: bolder;
 }
 :deep(.el-input__prefix-inner) { 
