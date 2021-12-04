@@ -2,6 +2,7 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import { useStore } from 'vuex'
+import { ElMessage } from 'element-plus'
 import {
   CaretTop,
   ArrowDownBold,
@@ -31,9 +32,16 @@ const basicRecord = {
   repayRate:0,//偿还利息金额
   repayTotal:0,//偿还总金额
 }
+
+const alertMessage = (msg)=>{
+  alert(msg)
+}
+
 function deleteRecord(recordKey){
-  if (records.length >= 1){
+  if (records.length > 1){
      records.splice(recordKey,1);
+  } else {
+    alertMessage('无法删除，已是最后一条还款记录!')
   }
 }
 

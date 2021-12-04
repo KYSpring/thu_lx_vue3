@@ -50,18 +50,19 @@ const addLendRecord = ()=>{
 <template>
 <div id="basebox">
     <el-card shadow="hover" style="width:100%">
-      <!-- title部分 -->
-      <el-row justify="space-between">
-        <el-col :span=4 @click="()=>{isFolded = !isFolded}">
-          <span class="iconbox"><el-icon :size="20" style="margin-right:1rem"><Files/></el-icon></span>
-          <span class="boxheader">基本信息</span>
-          <el-icon v-if="isFolded" style="margin-left:1rem"><ArrowUpBold /></el-icon>
-          <el-icon v-else style="margin-left:1rem"><ArrowDownBold /></el-icon>
-        </el-col>
-      </el-row>
       <!-- 要素部分 -->
-      <div class="ruleFormClass" v-show="!isFolded">
+      <div class="ruleFormClass">
+        <!-- title部分 -->
+        <el-row justify="space-between" style="margin-bottom:1rem">
+          <el-col :span=4 @click="()=>{isFolded = !isFolded}">
+            <!-- <span class="iconbox"><el-icon :size="20" style="margin-right:1rem"><Files/></el-icon></span> -->
+            <span class="boxheader">基本信息</span>
+            <el-icon v-if="isFolded" style="margin-left:1rem"><ArrowUpBold /></el-icon>
+            <el-icon v-else style="margin-left:1rem"><ArrowDownBold /></el-icon>
+          </el-col>
+        </el-row>
         <el-form
+          v-show="!isFolded"
           ref="getRuleForm"
           :model="ruleForm"
           :rules="rules"
@@ -156,13 +157,16 @@ const addLendRecord = ()=>{
   margin:0.5rem
 }
 #iconbox{
-  font-size: 10rem;
+  font-size: 8rem;
 }
 .ruleFormClass{
   padding: 2rem;
   border:1px solid gray;
   border-radius: 5px;
-  margin:1rem 0;
+}
+.boxheader{
+  font-size:2rem;
+  font-weight: bolder;
 }
 :deep(.el-input__prefix-inner) { 
   display: block;

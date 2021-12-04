@@ -6,25 +6,33 @@ import { ElMessage } from 'element-plus'
 import {ArrowDownBold,ArrowUpBold,Document,MoreFilled} from '@element-plus/icons'
 import { copyText } from 'vue3-clipboard'
 
-const isFolded = ref(false)
-const LXStore = useStore()
-const records = LXStore.state.LXAction
-
-const  {waitPayData, paidData, activities} = defineProps({
+const  {loanKey, waitPayData, paidData, activities} = defineProps({
+  loanKey: Number,
   waitPayData:Array,
   paidData:Array,
   activities:Array,
 })
+const isFolded = ref(false)
+const LXStore = useStore()
+const balanceResult = computed(() => LXStore.state.LXAction[loanKey].LXBalance)
+const balanceLen = computed(() => {
+  console.log('balanceLen',Object.keys(LXStore.state.LXAction[loanKey].LXBalance)?.length)
+  return Object.keys(LXStore.state.LXAction[loanKey].LXBalance)?.length
+})
 
 const formatResult = computed(()=>{
-  return `${waitPayData[0].name}：${waitPayData[0].value}；
-  ${waitPayData[1].name}：${waitPayData[1].value}；
-  待还本息和：${Number(waitPayData[0].value)+Number(waitPayData[1].value)}`
+  return `${balanceResult.value.waitPayData[0].name}：${balanceResult.value.waitPayData[0].value}；
+  ${balanceResult.value.waitPayData[1].name}：${balanceResult.value.waitPayData[1].value}；
+  待还本息和：${Number(balanceResult.value.waitPayData[0].value)+Number(balanceResult.value.waitPayData[1].value)}。
+  ${balanceResult.value.paidData[0].name}：${balanceResult.value.paidData[0].value}；
+  ${balanceResult.value.paidData[1].name}：${balanceResult.value.paidData[1].value}；
+  已还本息和：${Number(balanceResult.value.paidData[0].value)+Number(balanceResult.value.paidData[1].value)}`
 })
 const formatProcess = computed(()=>{
   return '等待实现和填充具体数据'
 })
 const doCopy = (formatData) => {
+  console.log('formatData',formatData)
   copyText(formatData, undefined, (error, event) => {
     if (error) {
       ElMessage({
@@ -36,7 +44,6 @@ const doCopy = (formatData) => {
         message: '复制成功！',
         type: 'success',
       })
-      console.log('formatData',formatData)
     }
   })
 }
@@ -64,9 +71,9 @@ const getSummaries = (param) => {
   })
   return sums
 }
-const getBalance = (recordKey)=>{
-  console.log('recordKey',records[recordKey])
-  records[recordKey].LXBalance = {
+const getBalance = ()=>{
+  console.log('balanceResult',Object.keys(balanceResult.value).length)
+  LXStore.state.LXAction[loanKey].LXBalance = {
     waitPayData: [
       {
         value: '20160503',
@@ -117,22 +124,21 @@ const getBalance = (recordKey)=>{
       }
     ]
   }
+  console.log('balanceResult',Object.keys(balanceResult.value).length)
+
 }
-onMounted(()=>{
-  ElMessage.success('按需引入');
-})
 </script>
 
 <template>
 <div id="basebox">
-  <el-row justify="center" style="margin:1rem 0" v-if="waitPayData.length">
-    <el-button type="success" round plain class="balanceButton" @click="getBalance(recordKey)"> + 结算本次借款</el-button>
+  <el-row justify="center" style="margin:1rem 0" v-if="!balanceLen">
+    <el-button type="success" round plain class="balanceButton" @click="getBalance"> + 结算本次借款</el-button>
   </el-row>
-  <el-card shadow="hover" style="width:100%">
+  <el-card shadow="hover" style="width:100%" v-else>
     <!-- title部分 -->
     <el-row justify="space-between">
       <el-col :span=4 @click="()=>{isFolded = !isFolded}">
-        <span class="iconbox"><el-icon :size="20" style="margin-right:1rem"><Document /></el-icon></span>
+        <span class="iconbox"><el-icon :size="18" style="margin-right:1rem"><Document /></el-icon></span>
         <span class="boxheader">结算</span>
         <el-icon v-if="isFolded" style="margin-left:1rem"><ArrowUpBold /></el-icon>
         <el-icon v-else style="margin-left:1rem"><ArrowDownBold /></el-icon>
@@ -143,7 +149,7 @@ onMounted(()=>{
       <el-col :span="16">
         <el-row justify="space-between">
             <el-col :span="12" style="padding:0.5rem">
-              <el-table :data="waitPayData" 
+              <el-table :data="balanceResult.waitPayData" 
               border
               :show-header="false" 
               :summary-method="getSummaries"
@@ -153,7 +159,7 @@ onMounted(()=>{
               </el-table>
             </el-col>
             <el-col :span="12" style="padding:0.5rem">
-              <el-table :data="paidData" 
+              <el-table :data="balanceResult.paidData" 
               border 
               :show-header="false" 
               :summary-method="getSummaries"
@@ -171,13 +177,13 @@ onMounted(()=>{
             <el-button type="success" plain round @click="doCopy(formatProcess)">复制计算过程</el-button>
           </el-col>
         </el-row>
-      </el-col>
+      </el-col> 
       <!-- 计算过程 -->
       <el-col :span="8">
         <el-row class="recordPanel">
           <el-timeline>
             <el-timeline-item
-              v-for="(activity, index) in activities"
+              v-for="(activity, index) in balanceResult.activities"
               :key="index"
               :icon="activity.icon"
               :type="activity.type"
@@ -201,7 +207,8 @@ onMounted(()=>{
   position: relative;
   font-size:2rem;
   display: block;
-  margin:0.5rem
+  margin:0.5rem;
+  width: 100%;
 }
 #iconbox{
   font-size: 10rem;
@@ -213,5 +220,9 @@ onMounted(()=>{
   height: 100%;
   max-height: 25rem;
   overflow-y:scroll;
+}
+.boxheader{
+  font-size:1.7rem;
+  font-weight: bold;
 }
 </style>

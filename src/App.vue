@@ -15,7 +15,8 @@ import LXRepaymentModVue from './components/LXRepaymentMod.vue';
 
 <style>
 html {
-  font-size:10.24px;
+  font-size:9px;
+  background-image: url('./assets/bluebkg.jpg');
 }
 :root {
   --el-font-size-base:1.3rem;
@@ -27,15 +28,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  width: 1024px;
-  /* height: 100vh; */
+  width: 900px;
   padding: 2rem;
   margin:auto;
-  border:2px solid gray;
-  border-radius: 25px;
+  border-radius: 10px;
   background: rgb(246, 245, 245);
+
 }
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
     html {
       font-size:1vw;
     }
@@ -49,11 +49,9 @@ html {
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
       color: #2c3e50;
-      width: 100vw;
-      /* height: 100vh; */
+      width: 95vw;
       padding: 2rem;
-      border:2px solid gray;
-      border-radius: 25px;
+      border-radius: 10px;
       background: rgb(246, 245, 245);
     }
 }
