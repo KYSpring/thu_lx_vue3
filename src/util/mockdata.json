@@ -1,11 +1,50 @@
 {
-    "state":200,
-    "content":{
-        "LXInfo":{},
-        "LXAction":{
-            "LXLoan":{},
-            "LXRepayment":{}
-        },
-        "LXBalance":{}
-    }
-}
+    "LXInfo":{
+      "isNatural": true,
+      "isContractStart": true,
+      "contractStartTime":"2020-1-1",
+      "prosecutionTime": "",
+      "acceptanceTime":"",
+      "isLiquidatedDamage":true,
+      "liquidatedDamage":0
+    },
+    "LXAction":{
+        "isFolded": false,
+        "LXLoan":{ 
+          "loanLendTime":"",
+          "loanEndTime":"",
+          "rateStartTime":"",
+          "loanAmount":"",
+        
+          "rateRadio": 1, 
+          "rateSelectValue": 1, 
+          "stableRateInputShow": true,
+          "oneYearLPRItemShow": false,
+          "fiveYearLPRItemShow": false,
+          "rate":0,
+          "LPRTimes":0,
+          "LPRYear":"",
+        
+          "overdueRateRadio": 1,
+          "overdueRateSelectValue": 1, 
+          "overdueStableRateInputShow": true,
+          "overdueOneYearLPRItemShow": false,
+          "overdueFiveYearLPRItemShow": false,
+          "overdueRate":0,
+          "overdueTimes":0,
+          "overdueLPRYear":"",
+          "LXRepayment":[
+            {
+              "isFolded": true,
+              "repayPrincipalRadio": 1,
+              "repayTime": "",
+              "rateTimeRange": [],
+              "overdueTimeRange":[],
+              "repayPrincipal":0,
+              "repayRate":0,
+              "repayTotal":0
+            }
+          ]
+        }
+      }
+  }

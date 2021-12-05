@@ -309,7 +309,7 @@ const addRepayRecord = (recordKey) => {
             <el-row justify="space-around" v-if="recordItem.LXLoan.stableRateInputShow && recordItem.LXLoan.rateRadio">
               <el-col :span="10">
                 <el-form-item
-                  label="利率:"
+                  label="年利率:"
                 >
                   <el-input type="number" v-model="recordItem.LXLoan.rate">
                     <template #append>%</template>
@@ -408,7 +408,7 @@ const addRepayRecord = (recordKey) => {
                   ">
               <el-col :span="10">
                 <el-form-item
-                  label="逾期利率："
+                  label="逾期年利率："
                 >
                   <el-input type="number" v-model="recordItem.LXLoan.overdueRate">
                     <template #append>%</template>

@@ -1,5 +1,6 @@
 
 <script setup>
+import axios from 'axios'
 import { ref,toRef, toRefs, onMounted, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
@@ -73,6 +74,18 @@ const getSummaries = (param) => {
 }
 const getBalance = ()=>{
   console.log('balanceResult',Object.keys(balanceResult.value).length)
+  axios({
+    method: 'post',
+    url: 'http://127.0.0.1:5000/privatelending/calculateRate',
+    data: {
+      LXInfo:LXStore.state.LXInfo ,
+      LXAction:LXStore.state.LXAction[loanKey]
+    }
+  }).then((response) => {
+    console.log('response.data',response.data)
+  }).catch(err => {
+    console.log(err)
+  })
   LXStore.state.LXAction[loanKey].LXBalance = {
     waitPayData: [
       {
@@ -125,7 +138,6 @@ const getBalance = ()=>{
     ]
   }
   console.log('balanceResult',Object.keys(balanceResult.value).length)
-
 }
 </script>
 
