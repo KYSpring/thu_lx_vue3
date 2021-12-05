@@ -101,21 +101,14 @@ const copyRecord = (recordKey) => {
   console.log('copyRecord',recordKey,LXStore.state.LXAction)
 }
 const resetRecord = (recordKey) => {
+  //此处涉及到内存引用地址的问题
+  const tmpRepayment = records[recordKey].LXLoan.LXRepayment
   records[recordKey] = {
     isFolded:false,
     LXLoan:{...basicRecord.LXLoan},
     LXBalance:{}
   }
-  records[recordKey].LXLoan.LXRepayment = [{
-        isFolded: true, //本记录折叠状态
-        repayPrincipalRadio: 1,//是否优先赔偿本金
-        repayTime: '',//还款时间
-        rateTimeRange: [],//期内利息起算和终止时间
-        overdueTimeRange:[],//逾期利息起算和终止时间
-        repayPrincipal:0,//偿还本金金额
-        repayRate:0,//偿还利息金额
-        repayTotal:0,//偿还总金额
-  }]
+  records[recordKey].LXLoan.LXRepayment = tmpRepayment
 }
 const deleteRecord = (recordKey) => {
   if(records.length<=1){

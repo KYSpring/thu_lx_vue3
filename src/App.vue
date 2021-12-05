@@ -40,7 +40,7 @@ import LXRepaymentModVue from './components/LXRepaymentMod.vue';
 }
 html {
   font-size:9px;
-  background-image: url('./assets/smallbluebkg.jpg');
+  background-image: url('./assets/smallbluebkg.webp');
 }
 :root {
   --el-font-size-base:1.3rem;
