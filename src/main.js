@@ -22,7 +22,7 @@ const store = createStore({
               loanLendTime:'',//借款时间
               loanEndTime:'',//借款到期时间
               rateStartTime:'',//期内利息起算时间
-              loanAmount:'',//借款金额
+              loanAmount:0,//借款金额
             
               // 期内利息
               rateRadio: 1, // 选择有无期内利息

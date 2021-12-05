@@ -30,7 +30,12 @@ const formatResult = computed(()=>{
   已还本息和：${Number(balanceResult.value.paidData[0].value)+Number(balanceResult.value.paidData[1].value)}`
 })
 const formatProcess = computed(()=>{
-  return '等待实现和填充具体数据'
+  let record = []
+  balanceResult.value.activities.forEach(item => {
+    record.push(item.content)
+    record.push('\n')
+  })
+  return record.join('')
 })
 const doCopy = (formatData) => {
   console.log('formatData',formatData)
@@ -53,7 +58,7 @@ const getSummaries = (param) => {
   const sums = []
   columns.forEach((column, index) => {
     if (index === 0) {
-      sums[index] = data[index].name == '待还本金（元）'?'待还本息和（元）':'已还本息和（元）';
+      sums[index] = data[index].name == '待还本金（元）'?'待还总和（元）':'已还总和（元）';
       return
     }
     const values = data.map((item) => Number(item[column.property]))
@@ -76,68 +81,22 @@ const getBalance = ()=>{
   console.log('balanceResult',Object.keys(balanceResult.value).length)
   axios({
     method: 'post',
-    url: 'http://127.0.0.1:5000/privatelending/calculateRate',
+    // url: 'http://127.0.0.1:5000/privatelending/calculateRate',
+    url: 'http://188.131.144.236:7777/privatelending/calculateRate',
     data: {
       LXInfo:LXStore.state.LXInfo ,
       LXAction:LXStore.state.LXAction[loanKey]
     }
   }).then((response) => {
-    console.log('response.data',response.data)
+    console.log('response.data',response.data.data);
+    LXStore.state.LXAction[loanKey].LXBalance = response.data.data
   }).catch(err => {
     console.log(err)
   })
-  LXStore.state.LXAction[loanKey].LXBalance = {
-    waitPayData: [
-      {
-        value: '20160503',
-        name: '待还本金（元）',
-      },
-      {
-        value: '20160503',
-        name: '待还利息（元）',
-      },
-    ],
-    paidData:[
-      {
-        value: '20160503',
-        name: '已还本金（元）',
-      },
-      {
-        value: '20160503',
-        name: '已还利息（元）',
-      },
-    ],
-    activities: [
-      {
-        content: 'Custom icon',
-        timestamp: '2018-04-12 20:46',
-        size: 'large',
-        type: 'primary',
-        icon: 'MoreFilled',
-      },
-      {
-        content: 'Custom color',
-        timestamp: '2018-04-03 20:46',
-        color: '#0bbd87',
-      },
-      {
-        content: 'Custom size',
-        timestamp: '2018-04-03 20:46',
-        size: 'large',
-      },
-      {
-        content: 'Custom hollow',
-        timestamp: '2018-04-03 20:46',
-        type: 'primary',
-        hollow: true,
-      },
-      {
-        content: 'Default node',
-        timestamp: '2018-04-03 20:46',
-      }
-    ]
-  }
   console.log('balanceResult',Object.keys(balanceResult.value).length)
+}
+const deleteBalance = ()=>{
+  LXStore.state.LXAction[loanKey].LXBalance ={}
 }
 </script>
 
@@ -155,10 +114,13 @@ const getBalance = ()=>{
         <el-icon v-if="isFolded" style="margin-left:1rem"><ArrowUpBold /></el-icon>
         <el-icon v-else style="margin-left:1rem"><ArrowDownBold /></el-icon>
       </el-col>
+      <el-col :span=4>
+        <el-button type="danger" @click="deleteBalance">删除</el-button>
+      </el-col>
     </el-row>
     <el-row justify="space-around" align="top" v-show="!isFolded" style="margin-top:1rem">
       <!-- 结算清单 -->
-      <el-col :span="16">
+      <el-col :span="14">
         <el-row justify="space-between">
             <el-col :span="12" style="padding:0.5rem">
               <el-table :data="balanceResult.waitPayData" 
@@ -191,22 +153,25 @@ const getBalance = ()=>{
         </el-row>
       </el-col> 
       <!-- 计算过程 -->
-      <el-col :span="8">
+      <el-col :span="10">
         <el-row class="recordPanel">
-          <el-timeline>
-            <el-timeline-item
-              v-for="(activity, index) in balanceResult.activities"
-              :key="index"
-              :icon="activity.icon"
-              :type="activity.type"
-              :color="activity.color"
-              :size="activity.size"
-              :hollow="activity.hollow"
-              :timestamp="activity.timestamp"
-            >
-              {{ activity.content }}
-            </el-timeline-item>
-          </el-timeline>
+            <el-timeline>
+              <el-timeline-item
+                style="text-align:left"
+                v-for="(activity, index) in balanceResult.activities"
+                :key="index"
+                :icon="activity.icon"
+                :type="activity.type"
+                :color="activity.color"
+                :size="activity.size"
+                :hollow="activity.hollow"
+                :timestamp="activity.timestamp"
+                placement="top"
+                center
+              >
+                <el-row>{{ activity.content }}</el-row>
+              </el-timeline-item>
+            </el-timeline>
         </el-row>
       </el-col>
     </el-row>

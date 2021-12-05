@@ -228,7 +228,7 @@ function recordUnfold(recordKey) {
 .optionEdit {
   font-size: 1.6rem;
   font-weight: bold;
-  color: rgba(64, 131, 240, 0.849);
+  color: rgba(25, 99, 218, 0.849);
 }
 .optionFold{
   font-size: 1.5rem;

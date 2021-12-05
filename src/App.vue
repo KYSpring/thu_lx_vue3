@@ -29,7 +29,7 @@ import LXRepaymentModVue from './components/LXRepaymentMod.vue';
   width:100vw;
   height: 30rem;
   color:white;
-  font-size:3rem;
+  font-size:3.5rem;
   font-weight: bolder;
   padding:5px;
 }
@@ -40,7 +40,7 @@ import LXRepaymentModVue from './components/LXRepaymentMod.vue';
 }
 html {
   font-size:9px;
-  background-image: url('./assets/bluebkg.jpg');
+  background-image: url('./assets/smallbluebkg.jpg');
 }
 :root {
   --el-font-size-base:1.3rem;
@@ -53,10 +53,10 @@ html {
   text-align: center;
   color: #2c3e50;
   width: 900px;
-  padding: 2rem;
+  padding: 1rem;
   margin:auto;
   border-radius: 10px;
-  background: rgb(246, 245, 245);
+  background: rgb(236, 236, 236);
 
 }
 @media (max-width: 900px) {
@@ -76,7 +76,7 @@ html {
       width: 95vw;
       padding: 2rem;
       border-radius: 10px;
-      background: rgb(246, 245, 245);
+      background: rgb(236, 236, 236);
     }
 }
 </style>
