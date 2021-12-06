@@ -31,9 +31,10 @@ const formatResult = computed(()=>{
 })
 const formatProcess = computed(()=>{
   let record = []
-  balanceResult.value.activities.forEach(item => {
+  balanceResult.value.activities.forEach((item,index) => {
+    record.push(`第${index+1}笔记录 ${item.timestamp}: `)
     record.push(item.content)
-    record.push('\n')
+    record.push("\n")
   })
   return record.join('')
 })
@@ -108,21 +109,21 @@ const deleteBalance = ()=>{
   <el-card shadow="hover" style="width:100%" v-else>
     <!-- title部分 -->
     <el-row justify="space-between">
-      <el-col :span=4 @click="()=>{isFolded = !isFolded}">
+      <el-col :xs="8" :span=4 @click="()=>{isFolded = !isFolded}">
         <span class="iconbox"><el-icon :size="18" style="margin-right:1rem"><Document /></el-icon></span>
         <span class="boxheader">结算</span>
         <el-icon v-if="isFolded" style="margin-left:1rem"><ArrowUpBold /></el-icon>
         <el-icon v-else style="margin-left:1rem"><ArrowDownBold /></el-icon>
       </el-col>
-      <el-col :span=4>
+      <el-col :xs="8" :span=4>
         <el-button type="danger" @click="deleteBalance">删除</el-button>
       </el-col>
     </el-row>
     <el-row justify="space-around" align="top" v-show="!isFolded" style="margin-top:1rem">
       <!-- 结算清单 -->
-      <el-col :span="14">
+      <el-col :xs="24" :span="14">
         <el-row justify="space-between">
-            <el-col :span="12" style="padding:0.5rem">
+            <el-col :xs="24" :span="12" style="padding:0.5rem">
               <el-table :data="balanceResult.waitPayData" 
               border
               :show-header="false" 
@@ -132,7 +133,7 @@ const deleteBalance = ()=>{
                 <el-table-column prop="value" label="Value"/>
               </el-table>
             </el-col>
-            <el-col :span="12" style="padding:0.5rem">
+            <el-col :xs="24" :span="12" style="padding:0.5rem">
               <el-table :data="balanceResult.paidData" 
               border 
               :show-header="false" 
@@ -144,16 +145,16 @@ const deleteBalance = ()=>{
             </el-col>
         </el-row>
         <el-row justify="space-between" :gutter="20" style="margin-top:3rem">
-          <el-col :span="8">
+          <el-col :xs="12" :span="8">
             <el-button type="primary" plain round @click="doCopy(formatResult)">复制结算结果</el-button>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="12" :span="8">
             <el-button type="success" plain round @click="doCopy(formatProcess)">复制计算过程</el-button>
           </el-col>
         </el-row>
       </el-col> 
       <!-- 计算过程 -->
-      <el-col :span="10">
+      <el-col :xs="24" :span="10">
         <el-row class="recordPanel">
             <el-timeline>
               <el-timeline-item

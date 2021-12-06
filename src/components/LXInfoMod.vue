@@ -42,9 +42,9 @@ const rules = {
     trigger: 'blur',
   }],
 }
-const addLendRecord = ()=>{
-  alert('待实现')
-}
+// const addLendRecord = ()=>{
+//   alert('待实现')
+// }
 </script>
 
 <template>
@@ -54,7 +54,7 @@ const addLendRecord = ()=>{
       <div class="ruleFormClass">
         <!-- title部分 -->
         <el-row justify="space-between" style="margin-bottom:1rem">
-          <el-col :span=4 @click="()=>{isFolded = !isFolded}">
+          <el-col :xs=6 :span=4 @click="()=>{isFolded = !isFolded}">
             <!-- <span class="iconbox"><el-icon :size="20" style="margin-right:1rem"><Files/></el-icon></span> -->
             <span class="boxheader">基本信息</span>
             <el-icon v-if="isFolded" style="margin-left:1rem"><ArrowUpBold /></el-icon>
@@ -66,11 +66,31 @@ const addLendRecord = ()=>{
           ref="getRuleForm"
           :model="ruleForm"
           :rules="rules"
-          label-width="45%"
-          font-size="10rem"
+          label-width="40%"
+          label-position="right"
         >
-        <el-row justify="space-between" align="middle">
-          <el-col :span=8>
+        <el-row justify="space-around" align="middle">
+          <el-col :xs="24" :span=10>
+            <el-form-item label="起诉时间:" prop="prosecutionTime" >
+              <el-date-picker 
+              v-model="ruleForm.prosecutionTime" 
+              type="date" placeholder="选择日期"
+              style="width: 90%;"
+              format="YYYY/MM/DD" value-format="YYYY-MM-DD"> 
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24"  :span=10>
+            <el-form-item label="受理时间:" prop="acceptanceTime">
+              <el-date-picker 
+              v-model="ruleForm.acceptanceTime" 
+              type="date" placeholder="选择日期"
+              style="width:90%;"
+              format="YYYY/MM/DD" value-format="YYYY-MM-DD"> 
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :span=10>
             <el-form-item label="双方均为自然人:" prop="isNatural">
               <el-radio-group v-model="ruleForm.isNatural">
                 <el-radio :label="true">是</el-radio>
@@ -78,52 +98,32 @@ const addLendRecord = ()=>{
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span=8>
-            <el-form-item label="起诉时间:" prop="prosecutionTime" >
-              <el-date-picker 
-              v-model="ruleForm.prosecutionTime" 
-              type="date" placeholder="选择日期"
-              style="width: 80%;"
-              format="YYYY/MM/DD" value-format="YYYY-MM-DD"> 
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span=8>
-            <el-form-item label="受理时间:" prop="acceptanceTime">
-              <el-date-picker 
-              v-model="ruleForm.acceptanceTime" 
-              type="date" placeholder="选择日期"
-              style="width: 80%;"
-              format="YYYY/MM/DD" value-format="YYYY-MM-DD"> 
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
+          <el-col :span=10></el-col>
         </el-row>    
 
-        <el-row justify="space-between">
-          <el-col :span=8>
-            <el-form-item label="有无合同成立时间:" prop="isContractStart">
+        <el-row justify="space-around">
+          <el-col :xs="24" :span=10>
+            <el-form-item label="有无合同或借条:" prop="isContractStart">
               <el-radio-group v-model="ruleForm.isContractStart">
                 <el-radio :label="true">是</el-radio>
                 <el-radio :label="false">否</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span=8>
+          <el-col :xs="24" :span=10>
             <el-form-item v-if="ruleForm.isContractStart" label="合同成立时间:">
               <el-date-picker 
               v-model="ruleForm.contractStartTime" 
               type="date" placeholder="选择日期"
-              style="width: 80%;"
+              style="width: 90%;"
               format="YYYY/MM/DD" value-format="YYYY-MM-DD"> 
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span=8></el-col>
         </el-row>  
 
-        <el-row justify="space-between">
-          <el-col :span=8>
+        <el-row justify="space-around">
+          <el-col :xs="24" :span=10>
             <el-form-item label="是否约定违约金:" prop="isLiquidatedDamage">
               <el-radio-group v-model="ruleForm.isLiquidatedDamage">
                 <el-radio :label="true">是</el-radio>
@@ -131,18 +131,19 @@ const addLendRecord = ()=>{
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span=8>
+          <el-col :xs="24" :span=10>
             <el-form-item v-if="ruleForm.isLiquidatedDamage" label="违约金金额:">
-              <el-input v-model="ruleForm.liquidatedDamage" style="width:80%"></el-input>
+              <el-input v-model="ruleForm.liquidatedDamage" style="width:90%">
+                <template #append>元</template>
+              </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span=8></el-col>
         </el-row>    
         </el-form>
       </div>
       <!-- <el-row justify="end">
         <el-col :span="4">
-          <el-button type="primary" size="medium" @click="addLendRecord">添加借款记录</el-button>
+          <el-button type="primary" @click="addLendRecord">添加借款记录</el-button>
         </el-col>
       </el-row> -->
     </el-card>

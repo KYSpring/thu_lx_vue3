@@ -80,17 +80,18 @@ function recordUnfold(recordKey) {
       <div class="ruleFormClass">
         <!-- 标题部分 -->
         <el-row >
-          <el-col :span="4" class="recordTitle">
+          <el-col :xs="6" :span="4" class="recordTitle">
             还款记录-{{ recordKey + 1 }}
           </el-col>
-            <el-col class="snapshot" :span="5" v-show="record.isFolded">还款时间：{{record.repayTime}}</el-col>
-            <el-col class="snapshot" :span="4" v-show="record.isFolded">还款金额 {{record.repayTotal }} 元</el-col>
-            <el-col class="optionEdit" :span="5" @click="recordFold(recordKey)" v-show="record.isFolded">
+            <el-col :xs="18" :span="0"></el-col>
+            <el-col class="snapshot" :xs="12" :span="5" v-show="record.isFolded">还款时间：{{record.repayTime}}</el-col>
+            <el-col class="snapshot" :xs="12" :span="4" v-show="record.isFolded">还款金额 {{record.repayTotal }} 元</el-col>
+            <el-col class="optionEdit" :xs="10" :span="5" @click="recordFold(recordKey)" v-show="record.isFolded">
               <el-icon class="icontransform"> 
                 <d-arrow-left />
               </el-icon>编辑
             </el-col>
-            <el-col :span="6" v-show="record.isFolded">
+            <el-col :xs="14" :span="6" v-show="record.isFolded">
               <el-button type="primary" size="mini" @click="copyRecord(recordKey)">复制</el-button>
               <!-- <el-button type="info" size="mini" @click="addBlankRecord">新建空白记录</el-button> -->
               <el-button type="danger" size="mini" @click="deleteRecord(recordKey)">删除</el-button>
@@ -100,7 +101,7 @@ function recordUnfold(recordKey) {
         <div v-show="!record.isFolded" style="margin-top:1rem">
           <el-form label-position="right" label-width="40%">
             <el-row justify="space-around">
-              <el-col :span="10">
+              <el-col :xs="24" :span="10">
                 <el-form-item label="约定优先偿还本金:">
                   <el-radio-group v-model="record.repayPrincipalRadio" style="width: 80%;">
                     <el-radio :label="1">是</el-radio>
@@ -108,7 +109,7 @@ function recordUnfold(recordKey) {
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col :span="10">
+              <el-col :xs="24" :span="10">
                 <el-form-item label="还款时间:">
                   <el-date-picker
                     style="width: 90%;"
@@ -121,7 +122,7 @@ function recordUnfold(recordKey) {
             </el-row>  
 
             <el-row justify="space-around">
-              <el-col :span="10">
+              <el-col :xs="24" :span="10">
                  <el-form-item label="期内利息计算时间:">
                   <el-date-picker
                     type="daterange"
@@ -135,7 +136,7 @@ function recordUnfold(recordKey) {
                   ></el-date-picker>
                 </el-form-item>          
               </el-col>
-              <el-col :span="10">
+              <el-col :xs="24" :span="10">
                 <el-form-item label="逾期利息计算时间:" v-if="hasOverdueRate">
                   <el-date-picker
                     type="daterange"
@@ -153,33 +154,33 @@ function recordUnfold(recordKey) {
 
             <!-- 优先偿还本金情况下出来的内容 -->
             <el-row justify="space-around" v-if="record.repayPrincipalRadio">
-              <el-col :span="10" >
+              <el-col :xs="24" :span="10" >
                  <el-form-item label="偿还本金金额:" >
                   <el-input v-model="record.repayPrincipal">
                     <template #append>元</template>
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="10">
+              <el-col :xs="24" :span="10">
                 <el-form-item label="偿还利息金额:" >
                   <el-input v-model="record.repayRate">
                     <template #append>元</template>
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="10">
-                <el-form-item label="还款总金额:">
+              <el-col :xs="24" :span="10">
+                <!-- <el-form-item label="还款总金额:">
                   <el-input v-model="record.repayTotal">
                     <template #append>元</template>
                   </el-input>
-                </el-form-item>
+                </el-form-item> -->
               </el-col>
               <el-col :span="10"></el-col>
             </el-row>   
             
             <!-- 未约定优先偿还本金情况下出来的内容 -->
             <el-row v-if="!record.repayPrincipalRadio" justify="space-around">
-              <el-col :span="10">
+              <el-col :xs="24" :span="10">
                 <el-form-item label="还款总金额:">
                   <el-input
                     style="width: 90%;"
@@ -195,13 +196,13 @@ function recordUnfold(recordKey) {
 
           <!-- 还款记录展开主要内容下部分按钮 和 收起 -->
           <el-row justify="space-between">
-            <el-col :span="8"></el-col>
-            <el-col class="optionFold" :span="8" @click="recordUnfold(recordKey)">
+            <el-col :xs="0" :span="8"></el-col>
+            <el-col :xs="8" class="optionFold" :span="8" @click="recordUnfold(recordKey)">
               <el-icon class="icontransform"> 
                 <d-arrow-right />
               </el-icon>收起
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="16" :span="8">
               <el-button type="primary" size="mini">保存</el-button>
               <el-button type="info" size="mini" @click="resetRepayRecord(recordKey)">清除</el-button>
             </el-col>

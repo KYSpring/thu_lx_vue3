@@ -19,9 +19,10 @@ const store = createStore({
             // index: 0,//与records中的索引保持一致[待定：尽量删除]
             isFolded: false,//面板折叠状态
             LXLoan:{ //借款记录
-              loanLendTime:'',//借款时间
+              loanLendTime:'',//出借时间
               loanEndTime:'',//借款到期时间
               rateStartTime:'',//期内利息起算时间
+              balanceTime:'',//结算时间
               loanAmount:0,//借款金额
             
               // 期内利息

@@ -13,7 +13,7 @@ import LXRepaymentModVue from './components/LXRepaymentMod.vue';
       <el-row justify="start">
         <el-col :span="3"></el-col>
         <el-col :span="3" class="firsttitle">
-          <span>民间借贷利息计算器</span>
+          <span>民间借贷利息计算</span>
         </el-col>
       </el-row>
     </el-header>
@@ -38,12 +38,12 @@ import LXRepaymentModVue from './components/LXRepaymentMod.vue';
   -webkit-writing-mode: vertical-lr;
   writing-mode: vertical-lr;
 }
+:root {
+  --el-font-size-base:1.3rem;
+}
 html {
   font-size:9px;
   background-image: url('./assets/smallbluebkg.webp');
-}
-:root {
-  --el-font-size-base:1.3rem;
 }
 #app {
   position: relative;

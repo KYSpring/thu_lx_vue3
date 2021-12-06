@@ -14,6 +14,7 @@
           "loanLendTime":"2021-12-01",
           "loanEndTime":"2023-12-01",
           "rateStartTime":"2021-12-10",
+          "balanceTime":"2023-12-01",
           "loanAmount":"10000",
         
           "rateRadio": 1, 
