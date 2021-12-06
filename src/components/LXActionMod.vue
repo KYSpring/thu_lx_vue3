@@ -12,6 +12,7 @@ import {
 import {deepClone} from "../utils";
 import LXRepaymentModVue from './LXRepaymentMod.vue';
 import LXBalanceModVue from "./LXBalanceMod.vue";
+import { ElMessage } from "element-plus";
 
 const LXStore = useStore()
 
@@ -113,6 +114,14 @@ const copyRecord = (recordKey) => {
     LXBalance:{}
   });
   console.log('copyRecord',recordKey,LXStore.state.LXAction)
+}
+const saveToLocalStorage = () => {
+  //将全部数据保存到本地
+  localStorage.setItem('myLXrecord',LXStore.state);
+  ElMessage({
+    message: '保存成功！',
+    type: 'success',
+  })
 }
 const resetRecord = (recordKey) => {
   //此处涉及到内存引用地址的问题

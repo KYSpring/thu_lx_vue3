@@ -68,6 +68,15 @@ function recordUnfold(recordKey) {
   records[recordKey].isFolded = true;
 }
 
+const saveToLocalStorage = () => {
+  //将全部数据保存到本地
+  localStorage.setItem('myLXrecord',LXStore.state);
+  ElMessage({
+    message: '保存成功！',
+    type: 'success',
+  })
+}
+
 </script>
 
 <template>
@@ -203,7 +212,7 @@ function recordUnfold(recordKey) {
               </el-icon>收起
             </el-col>
             <el-col :xs="16" :span="8">
-              <el-button type="primary" size="mini">保存</el-button>
+              <el-button type="primary" size="mini" >保存</el-button>
               <el-button type="info" size="mini" @click="resetRepayRecord(recordKey)">清除</el-button>
             </el-col>
           </el-row>

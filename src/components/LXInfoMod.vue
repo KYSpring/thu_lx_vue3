@@ -13,6 +13,11 @@ import {ArrowDownBold,ArrowUpBold,Files} from '@element-plus/icons'
 // })
 const getRuleForm = ref(null)
 const LXStore = useStore()
+// if(localStorage.getItem('myLXrecord')){
+//   console.log('load success')
+//   LXStore.replaceState(localStorage.getItem('myLXrecord'))
+//   console.log(LXStore.state)
+// }
 const ruleForm = LXStore.state.LXInfo
 const isFolded = ref(false)
 const rules = {
