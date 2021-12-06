@@ -23,7 +23,7 @@
           "fiveYearLPRItemShow": false,
           "rate":20,
           "LPRTimes":0,
-          "LPRYear":"",
+          "LPRdate":"",
         
           "overdueRateRadio": 1,
           "overdueRateSelectValue": 1, 
@@ -32,7 +32,7 @@
           "overdueFiveYearLPRItemShow": false,
           "overdueRate":10,
           "overdueTimes":0,
-          "overdueLPRYear":"",
+          "overdueLPRdate":"",
           "LXRepayment":[
             {
               "isFolded": true,

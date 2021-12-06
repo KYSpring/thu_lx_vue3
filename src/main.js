@@ -32,7 +32,7 @@ const store = createStore({
               fiveYearLPRItemShow: false,
               rate:0,//期内利率
               LPRTimes:0,//LPR倍率
-              LPRYear:'',//期内利率约定的LPR年份
+              LPRdate:'',//期内利率约定的LPR年份
             
               // 逾期利息
               overdueRateRadio: 1, // 选择有无余期利息
@@ -42,7 +42,7 @@ const store = createStore({
               overdueFiveYearLPRItemShow: false,
               overdueRate:0,//逾期利率
               overdueTimes:0,//逾期LPR倍率
-              overdueLPRYear:'',//逾期利率约定的LPR年份
+              overdueLPRdate:'',//逾期利率约定的LPR年份
 
               //还款记录,可能存在多个
               LXRepayment:[

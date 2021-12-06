@@ -81,8 +81,8 @@ const getBalance = ()=>{
   console.log('balanceResult',Object.keys(balanceResult.value).length)
   axios({
     method: 'post',
-    // url: 'http://127.0.0.1:5000/privatelending/calculateRate',
-    url: 'http://188.131.144.236:7777/privatelending/calculateRate',
+    // url: 'http://127.0.0.1:5000/privatelending/calculateRate',//test
+    url: 'http://188.131.144.236:7777/privatelending/calculateRate',//production
     data: {
       LXInfo:LXStore.state.LXInfo ,
       LXAction:LXStore.state.LXAction[loanKey]

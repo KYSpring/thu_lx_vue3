@@ -47,7 +47,7 @@ const basicRecord = { //初始化的新借还款记录
     fiveYearLPRItemShow: false,
     rate:0,//期内利率
     LPRTimes:0,//LPR倍率
-    LPRYear:'',//期内利率约定的LPR年份
+    LPRdate:'',//期内利率约定的LPR年份
     // 逾期利息
     overdueRateRadio: 1, // 选择有无余期利息
     overdueRateSelectValue: 1, // 逾期利率种类 值 1，2，3
@@ -56,7 +56,7 @@ const basicRecord = { //初始化的新借还款记录
     overdueFiveYearLPRItemShow: false,
     overdueRate:0,//逾期利率
     overdueTimes:0,//逾期LPR倍率
-    overdueLPRYear:'',//逾期利率约定的LPR年份
+    overdueLPRdate:'',//逾期利率约定的LPR年份
     //还款记录
     LXRepayment:[],
   },
@@ -328,13 +328,13 @@ const addRepayRecord = (recordKey) => {
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="年份:">
-                  <el-input
-                    placeholder="输入年份（默认当前年）"
-                    v-model="recordItem.LXLoan.LPRYear"
-                  >
-                    <template #append>年</template>
-                  </el-input>
+                <el-form-item label="LPR日期:">
+                  <el-date-picker
+                  v-model="recordItem.LXLoan.LPRdate" 
+                  type="date" placeholder="选择日期"
+                  style="width: 90%;"
+                  format="YYYY-MM-DD" value-format="YYYY-MM-DD">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -355,13 +355,13 @@ const addRepayRecord = (recordKey) => {
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="年份:">
-                  <el-input
-                    placeholder="输入年份（默认当前年）"
-                    v-model="recordItem.LXLoan.LPRYear"
-                  >
-                    <template #append>年</template>
-                  </el-input>
+                <el-form-item label="LPR日期:">
+                  <el-date-picker
+                  v-model="recordItem.LXLoan.LPRdate" 
+                  type="date" placeholder="选择日期"
+                  style="width: 90%;"
+                  format="YYYY-MM-DD" value-format="YYYY-MM-DD">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -431,13 +431,13 @@ const addRepayRecord = (recordKey) => {
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="年份:">
-                  <el-input
-                    placeholder="输入年份（默认当前年）"
-                    v-model="recordItem.LXLoan.overdueLPRYear"
-                  >
-                    <template #append>年</template>
-                  </el-input>
+                <el-form-item label="LPR日期:">
+                  <el-date-picker
+                  v-model="recordItem.LXLoan.overdueLPRdate" 
+                  type="date" placeholder="选择日期"
+                  style="width: 90%;"
+                  format="YYYY-MM-DD" value-format="YYYY-MM-DD">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -460,13 +460,13 @@ const addRepayRecord = (recordKey) => {
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item label="年份:">
-                  <el-input
-                    placeholder="输入年份（默认当前年）:"
-                    v-model="recordItem.LXLoan.overdueLPRYear"
-                  >
-                    <template #append>年</template>
-                  </el-input>
+                <el-form-item label="LPR日期:">
+                  <el-date-picker
+                  v-model="recordItem.LXLoan.overdueLPRdate" 
+                  type="date" placeholder="选择日期"
+                  style="width: 90%;"
+                  format="YYYY-MM-DD" value-format="YYYY-MM-DD">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
