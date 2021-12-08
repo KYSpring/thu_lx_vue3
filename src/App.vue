@@ -5,10 +5,15 @@ import LXInfoModVue from './components/LXInfoMod.vue';
 import LXActionModVue from './components/LXActionMod.vue';
 import LXBalanceModVue from './components/LXBalanceMod.vue';
 import LXRepaymentModVue from './components/LXRepaymentMod.vue';
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+const locale = zhCn
+
 </script>
 
 <template>
     <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
+    <el-config-provider :locale="locale">
     <el-header height="3rem" class="headerTitle">
       <el-row justify="start">
         <el-col :span="3"></el-col>
@@ -32,6 +37,7 @@ import LXRepaymentModVue from './components/LXRepaymentMod.vue';
         <span>&nbsp;&nbsp;&nbsp;&nbsp;联系邮箱 computational_law@tsinghua.edu.cn</span>
       </div>
     </div>
+    </el-config-provider>
 </template>
 
 <style>
