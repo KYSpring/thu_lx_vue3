@@ -133,10 +133,10 @@ html {
 
 @media (max-width: 768px) {
   html {
-    font-size: 2vw;
+    font-size: 5px;
   }
   :root {
-    --el-font-size-base: 1.3rem;
+    --el-font-size-base: 1.5rem;
   }
   #app {
     position: relative;

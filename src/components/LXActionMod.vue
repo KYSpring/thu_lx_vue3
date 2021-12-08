@@ -16,6 +16,9 @@ import { ElMessage } from "element-plus";
 
 const LXStore = useStore()
 
+let showAlert = ref(false)
+let alertTitle = ref('error')
+
 const rateSelect = [
   {
     category: "固定利率",
@@ -101,9 +104,10 @@ const basicRecord = { //初始化的新借还款记录
 const loanEndTimeChange = (recordKey) => {
   const loadEndTime = records[recordKey].LXLoan.loanEndTime
   const loanLendTime = records[recordKey].LXLoan.loanLendTime
-  console.log(loadEndTime < loanLendTime);
+  showAlert.value = false
+  alertTitle.value = '到期时间应当在出借时间之前'
   if (loanLendTime != "" && loadEndTime < loanLendTime) {
-    alert('到期日期只能在出借日期之后');
+    showAlert.value = true
     records[recordKey].LXLoan.loanEndTime = ''
   }
 }
@@ -286,6 +290,8 @@ const addRepayRecord = (recordKey) => {
           <el-button type="danger" @click="deleteRecord(recordKey)">删除</el-button>
         </el-col>
       </el-row>
+
+       <el-alert v-show="showAlert" :title="alertTitle" type="error" show-icon center style="margin-top:1rem" />
 
       <!-- 借款展开主要内容 -->
       <div class="ruleFormClass" v-show="!recordItem.isFolded">
