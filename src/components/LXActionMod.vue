@@ -32,13 +32,11 @@ const rateSelect = [
 ] // 选择器常量
 const records = LXStore.state.LXAction
 
-const checkOneYearLPRDate = (rule, value, callback) => {
+const checkLPRDate = (rule, value, callback) => {
   if (value<'2019-08-20'){
-    console.log(1);
-    return callback(new Error('1'))
+    return callback(new Error('当前日期不适用LPR新规定'))
   }else{
-    console.log(2);
-    return callback(new Error('2'))
+    return callback()
   }
 }
 
@@ -53,10 +51,15 @@ const rules = {
     message: '必填项',
     trigger: 'blur',
   }],
-  oneYearLPRDate: [{
-    validator: 'checkOneYearLPRDate',
+  LPRdate: [{
+    validator: checkLPRDate,
+    trigger: 'blur'
+  }],
+  overdueLPRdate: [{
+    validator: checkLPRDate,
     trigger: 'blur'
   }]
+
 
 }
 
@@ -422,7 +425,7 @@ const addRepayRecord = (recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="10">
-              <el-form-item label="LPR日期111:" prop="oneYearLPRDate">
+              <el-form-item label="LPR日期:" prop="LPRdate">
                 <el-date-picker
                   v-model="recordItem.LXLoan.LPRdate"
                   type="date"
@@ -457,7 +460,7 @@ const addRepayRecord = (recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="10">
-              <el-form-item label="LPR日期:">
+              <el-form-item label="LPR日期:" prop="LPRdate">
                 <el-date-picker
                   v-model="recordItem.LXLoan.LPRdate"
                   type="date"
@@ -543,7 +546,7 @@ const addRepayRecord = (recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="10">
-              <el-form-item label="LPR日期:">
+              <el-form-item label="LPR日期:" prop="overdueLPRdate">
                 <el-date-picker
                   v-model="recordItem.LXLoan.overdueLPRdate"
                   type="date"
@@ -578,7 +581,7 @@ const addRepayRecord = (recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="10">
-              <el-form-item label="LPR日期:">
+              <el-form-item label="LPR日期:" prop="overdueLPRdate">
                 <el-date-picker
                   v-model="recordItem.LXLoan.overdueLPRdate"
                   type="date"
