@@ -32,6 +32,16 @@ const rateSelect = [
 ] // 选择器常量
 const records = LXStore.state.LXAction
 
+const checkOneYearLPRDate = (rule, value, callback) => {
+  if (value<'2019-08-20'){
+    console.log(1);
+    return callback(new Error('1'))
+  }else{
+    console.log(2);
+    return callback(new Error('2'))
+  }
+}
+
 const rules = {
   loanEndTime: [{
     required: true,
@@ -43,7 +53,14 @@ const rules = {
     message: '必填项',
     trigger: 'blur',
   }],
+  oneYearLPRDate: [{
+    validator: 'checkOneYearLPRDate',
+    trigger: 'blur'
+  }]
+
 }
+
+
 
 const basicRecord = { //初始化的新借还款记录
   index: 0,//与records中的索引保持一致
@@ -261,26 +278,15 @@ const addRepayRecord = (recordKey) => {
           </el-icon>
         </el-col>
         <el-col :xs="24" :span="10">
-          <el-button type="primary" @click="copyRecord(recordKey)"
-            >复制本记录</el-button
-          >
-          <el-button type="info" @click="addBlankRecord"
-            >新建空白记录</el-button
-          >
-          <el-button type="danger" @click="deleteRecord(recordKey)"
-            >删除</el-button
-          >
+          <el-button type="primary" @click="copyRecord(recordKey)">复制本记录</el-button>
+          <el-button type="info" @click="addBlankRecord">新建空白记录</el-button>
+          <el-button type="danger" @click="deleteRecord(recordKey)">删除</el-button>
         </el-col>
       </el-row>
 
       <!-- 借款展开主要内容 -->
       <div class="ruleFormClass" v-show="!recordItem.isFolded">
-        <el-form
-          label-position="right"
-          label-width="35%"
-          :model="recordItem.LXLoan"
-          :rules="rules"
-        >
+        <el-form label-position="right" label-width="35%" :model="recordItem.LXLoan" :rules="rules">
           <el-row justify="space-around">
             <el-col :xs="24" :span="10">
               <el-form-item label="出借时间:">
@@ -342,10 +348,7 @@ const addRepayRecord = (recordKey) => {
           </el-row>
           <el-row justify="space-around">
             <el-col :xs="24" :span="10">
-              <el-form-item
-                label="利息起算时间:"
-                v-if="recordItem.LXLoan.rateRadio"
-              >
+              <el-form-item label="利息起算时间:" v-if="recordItem.LXLoan.rateRadio">
                 <el-date-picker
                   v-model="recordItem.LXLoan.rateStartTime"
                   type="date"
@@ -357,10 +360,7 @@ const addRepayRecord = (recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="10">
-              <el-form-item
-                label="期内利率种类:"
-                v-if="recordItem.LXLoan.rateRadio"
-              >
+              <el-form-item label="期内利率种类:" v-if="recordItem.LXLoan.rateRadio">
                 <el-select
                   v-model="recordItem.LXLoan.rateSelectValue"
                   placeholder="请选择"
@@ -422,7 +422,7 @@ const addRepayRecord = (recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="10">
-              <el-form-item label="LPR日期:">
+              <el-form-item label="LPR日期111:" prop="oneYearLPRDate">
                 <el-date-picker
                   v-model="recordItem.LXLoan.LPRdate"
                   type="date"
@@ -481,10 +481,7 @@ const addRepayRecord = (recordKey) => {
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="10">
-              <el-form-item
-                label="逾期利率种类:"
-                v-if="recordItem.LXLoan.overdueRateRadio"
-              >
+              <el-form-item label="逾期利率种类:" v-if="recordItem.LXLoan.overdueRateRadio">
                 <el-select
                   v-model="recordItem.LXLoan.overdueRateSelectValue"
                   placeholder="请选择"
@@ -602,18 +599,13 @@ const addRepayRecord = (recordKey) => {
           </el-col>
           <el-col :xs="12" :span="6">
             <el-button type="primary">保存</el-button>
-            <el-button type="info" @click="resetRecord(recordKey)"
-              >清除</el-button
-            >
+            <el-button type="info" @click="resetRecord(recordKey)">清除</el-button>
           </el-col>
         </el-row>
 
         <!-- 还款记录容器 -->
         <el-row id="repayContainer">
-          <LXRepaymentModVue
-            :loanKey="recordKey"
-            :records="recordItem.LXLoan.LXRepayment"
-          ></LXRepaymentModVue>
+          <LXRepaymentModVue :loanKey="recordKey" :records="recordItem.LXLoan.LXRepayment"></LXRepaymentModVue>
         </el-row>
 
         <!-- 结算容器 -->
@@ -624,12 +616,8 @@ const addRepayRecord = (recordKey) => {
 
       <!-- 借款记录收起主要内容 -->
       <el-row class="ruleFormClass" v-show="recordItem.isFolded">
-        <el-col :span="8"
-          >出借时间: {{ recordItem.LXLoan.loanLendTime }}</el-col
-        >
-        <el-col :span="8"
-          >借款金额: {{ recordItem.LXLoan.loanAmount }} 元</el-col
-        >
+        <el-col :span="8">出借时间: {{ recordItem.LXLoan.loanLendTime }}</el-col>
+        <el-col :span="8">借款金额: {{ recordItem.LXLoan.loanAmount }} 元</el-col>
       </el-row>
     </el-card>
   </div>
