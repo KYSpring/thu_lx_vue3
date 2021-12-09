@@ -32,7 +32,7 @@ const formatResult = computed(()=>{
 const formatProcess = computed(()=>{
   let record = []
   balanceResult.value.activities.forEach((item,index) => {
-    record.push(`第${index+1}笔记录 ${item.timestamp}: `)
+    record.push(`${item.timestamp}: `)
     record.push(item.content)
     record.push("\n")
   })
