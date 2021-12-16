@@ -19,7 +19,7 @@ const locale = zhCn
         <el-col :span="3"></el-col>
         <el-col :span="3" class="firsttitle">
           <span>民间借贷复杂债权利息计算</span>
-          <img src="./assets/ISAIL-LOGO.png" height="80" width="100" style="margin-top:2rem">
+          <img src="./assets/ISAIL-LOGO.png" width="55" style="margin-top:2rem">
         </el-col>
       </el-row>
     </el-header>
