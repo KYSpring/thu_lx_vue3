@@ -6,8 +6,6 @@
 
 语雀地址：https://www.yuque.com/docs/share/7af028e0-97a6-45df-8314-4023394c58df?# 
 
-[项目访问地址](http://calculator.thuprivatelending.com/)
-
 ## 常用命令行
 
 ### 1. 安装和启动本项目
